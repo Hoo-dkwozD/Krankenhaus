@@ -1,0 +1,5 @@
+order,role,username,credential_ref,tenant,enabled,notes
+1,Super Admin,EDIT_ME,private/credentials.env or password manager,EDIT_ME,true,Highest privilege; test first
+2,Admin,EDIT_ME,private/credentials.env or password manager,EDIT_ME,true,Test after Super Admin
+3,Supervisor,EDIT_ME,private/credentials.env or password manager,EDIT_ME,true,Test after Admin
+4,Agent,EDIT_ME,private/credentials.env or password manager,EDIT_ME,true,Lowest supplied privilege

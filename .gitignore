@@ -1,0 +1,34 @@
+# Engagement secrets and raw material
+private/*
+!private/README.md
+*.env
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.burp
+*.burpsuite
+
+# Raw or sensitive evidence
+.evidence-raw/
+evidence/raw/
+**/raw/
+*.har
+*.pcap
+*.pcapng
+*.sqlite
+*.db
+
+# Local/generated files
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.vscode/
+.idea/
+
+# Temporary exports
+*.csv.tmp
+*.json.tmp

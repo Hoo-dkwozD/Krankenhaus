@@ -22,12 +22,12 @@ Reusable, GitHub-ready workspace for authorized web-application security engagem
 ## Repository layout
 
 ```text
-engagement/                  Human-editable info, task instructions, and Checklist.md
-config/                      Structured scope and role metadata; no secrets
-catalogue/                   Baseline finding catalogue; extend per engagement
-plans/                      Generated finding plan and manually maintained inventories
-templates/                  Evidence and finding-record templates
-scripts/                    Safe initialization and plan-generation commands
+engagement/                  Human-readable source documents only
+config/                      Generated structured scope and role metadata
+catalogue/                   Human-readable finding catalogue
+plans/                       Generated finding plan and machine-readable inventories
+templates/                   Evidence and finding-record templates
+scripts/                     Safe generation, initialization, and plan commands
 evidence/                   Sanitized engagement evidence only
 findings/                   Final finding records and remediation notes
 private/                    Local-only credential references and sensitive notes
@@ -49,25 +49,29 @@ private/                    Local-only credential references and sensitive notes
      --destination "$HOME/Documents/BDO Engagements/<Client>/<Month>/<Project>"
    ```
 
-3. Edit only the engagement-specific files first:
+3. Edit only the human-readable source files:
 
    - `engagement/Engagement-Info.md`
+   - `engagement/Roles-and-Credentials.md`
    - `engagement/Task-Info.md`
-   - `config/engagement.yaml`
-   - `config/roles.csv`
-   - `plans/Endpoint-Inventory.csv`
-   - `plans/Input-Point-Inventory.csv`
+   - `engagement/Checklist.md`
+   - `engagement/Endpoint-Notes.md`
+   - `engagement/Input-Point-Notes.md`
+   - `catalogue/Finding-Catalogue.md`
 
-4. Store credentials outside Git. Use `config/roles.csv` only for usernames, role labels, and a reference such as `private/credentials.env` or a password-manager entry. Never put passwords or tokens in tracked files.
+4. Store credentials outside Git. Use `Roles-and-Credentials.md` only for usernames, role labels, tenant values, and secret references. Never put passwords or tokens in tracked files.
 
-5. Generate the engagement-specific finding plan:
+5. Populate all generated machine-readable files:
 
    ```bash
    cd "$HOME/Documents/BDO Engagements/<Client>/<Month>/<Project>"
-   ./scripts/build-finding-plan.py
+   ./scripts/build-machine-state.py
    ```
 
-6. Review `plans/Finding-Plan.md` before any target request. Add or remove catalogue entries based on the actual sitemap and technologies. A catalogue item is a test objective, not a finding.
+   This generates `config/*.yaml`, `config/*.csv`, `plans/*.csv`, and `plans/Finding-Plan.md`.
+
+6. Review the generated plan and inventories before any target request. Do not hand-edit generated files; change the Markdown source and regenerate.
+
 
 7. Start with passive reconnaissance and Burp MCP sitemap review. Proceed only after scope, authorization window, roles, and test boundaries are complete.
 

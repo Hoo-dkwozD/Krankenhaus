@@ -1,18 +1,33 @@
-# Human- and script-editable engagement metadata. Do not add secrets here.
-project_name: EDIT_ME
-client: EDIT_ME
-engagement_id: EDIT_ME
-assessment_type: web_application
-primary_url: https://EDIT_ME/
-hosts: []
-ips: []
-ports: [443]
-start_utc: EDIT_ME
-end_utc: EDIT_ME
-timezone: UTC
-burp_mcp_endpoint: http://127.0.0.1:9876
-browser: EDIT_ME
-default_tenants: []
+# GENERATED FILE — edit engagement/*.md, then run scripts/build-machine-state.py.
+project_name: 'EDIT_ME'
+client: 'EDIT_ME'
+engagement_id: 'EDIT_ME'
+assessment_type: 'Web application penetration test'
+owner_pentest_firm: 'EDIT_ME'
+primary_tester: 'EDIT_ME'
+authorization_reference: 'EDIT_ME'
+primary_url: 'https://EDIT_ME/'
+hosts:
+ips:
+ports:
+  - 443
+start_utc: 'EDIT_ME'
+end_utc: 'EDIT_ME'
+timezone: 'EDIT_ME'
+burp_mcp_endpoint: 'http://127.0.0.1:9876'
+browser: 'EDIT_ME'
+excluded_assets: 'EDIT_ME'
+emergency_contact: 'EDIT_ME'
+stop_condition_contact: 'EDIT_ME'
+burp_project_evidence_location: 'private/ or approved secure location; never commit it'
+direct_target_traffic_permitted: 'NO — use Burp MCP unless explicitly changed'
+oob_listener: 'NOT_APPROVED_UNTIL_FILLED'
+fixture_namespace: 'EDIT_ME'
+allowed_disposable_destination: 'EDIT_ME'
+cleanup_procedure: 'EDIT_ME'
+maintenance_windows: 'EDIT_ME'
+reporting_requirements: 'EDIT_ME'
+default_tenants:
 role_file: config/roles.csv
 finding_catalogue: catalogue/Finding-Catalogue.md
 endpoint_inventory: plans/Endpoint-Inventory.csv

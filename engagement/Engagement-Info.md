@@ -48,7 +48,7 @@ The canonical role order is:
 3. Supervisor
 4. Agent / lowest privilege
 
-Role labels, usernames, tenant assignment, and secret references belong in `config/roles.csv`. Passwords belong in a password manager or ignored `private/credentials.env` file.
+Role labels, usernames, tenant assignment, and secret references belong in `engagement/Roles-and-Credentials.md`. Passwords belong in a password manager or ignored `private/credentials.env` file. Run `scripts/build-machine-state.py` to generate `config/roles.csv`.
 
 ## Authorization boundaries
 

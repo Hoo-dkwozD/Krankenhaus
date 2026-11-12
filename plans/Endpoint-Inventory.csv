@@ -1,2 +1,2 @@
-endpoint_id,method,host,path,source,ui_route_or_workflow,auth_required,role_reachability,tenant_scope,object_scope,state_change,fixture_required,status,evidence_ref,notes
-EP-0001,GET,EDIT_ME,/,Burp/UI,login or shell,unknown,all roles,EDIT_ME,none,no,no,Discovered,,Replace with actual endpoint
+endpoint_id,method,host,path,discovery_source,ui_route_workflow,auth_required,role_reachability,tenant_scope,object_scope,state_change,fixture_required,status,evidence_reference,notes
+EP-0001,GET,EDIT_ME,/,UI/Burp,Login or shell,unknown,all roles,EDIT_ME,none,no,no,Discovered,,Replace this row with the first observed endpoint

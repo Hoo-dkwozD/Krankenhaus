@@ -6,21 +6,27 @@ ROOT="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 mkdir -p "$ROOT/private" "$ROOT/evidence" "$ROOT/findings" "$ROOT/plans"
 chmod 700 "$ROOT/private"
 
-if [[ ! -f "$ROOT/config/engagement.yaml" || ! -f "$ROOT/config/roles.csv" ]]; then
-  echo "Missing config/engagement.yaml or config/roles.csv" >&2
-  exit 1
-fi
+for source in \
+  "$ROOT/engagement/Engagement-Info.md" \
+  "$ROOT/engagement/Roles-and-Credentials.md" \
+  "$ROOT/engagement/Endpoint-Notes.md" \
+  "$ROOT/engagement/Input-Point-Notes.md"; do
+  if [[ ! -f "$source" ]]; then
+    echo "Missing human-readable source: $source" >&2
+    exit 1
+  fi
+done
 
-"$ROOT/scripts/build-finding-plan.py"
+"$ROOT/scripts/build-machine-state.py"
 
 cat <<'EOF'
 Initialization complete.
 
 Before target traffic:
-  1. Fill engagement/Engagement-Info.md.
-  2. Fill engagement/Task-Info.md with engagement-specific boundaries.
-  3. Fill config/engagement.yaml and config/roles.csv without storing secrets.
+  1. Fill the human-readable files under engagement/.
+  2. Fill catalogue/Finding-Catalogue.md with applicable finding objectives.
+  3. Run scripts/build-machine-state.py after every source change.
   4. Add credentials only to ignored private/ storage or a password manager.
-  5. Review plans/Finding-Plan.md, plans/Endpoint-Inventory.csv, and plans/Input-Point-Inventory.csv.
+  5. Review generated config/*.yaml/csv, plans/*.csv, and plans/Finding-Plan.md.
   6. Confirm Burp MCP and the authorized testing window.
 EOF

@@ -39,8 +39,17 @@ else
   mkdir -p "$DEST_INPUT"
 fi
 
-# BSD tar is available on macOS and preserves the tree while excluding Git metadata.
-tar -C "$SOURCE" --exclude='./.git' --exclude='./.DS_Store' -cf - . | tar -C "$DEST_INPUT" -xf -
+# BSD tar is available on macOS and preserves the tree while excluding Git metadata,
+# private local material, and interpreter caches.
+tar -C "$SOURCE" \
+  --exclude='./.git' \
+  --exclude='./.DS_Store' \
+  --exclude='./private/*' \
+  --exclude='*/__pycache__' \
+  --exclude='*.pyc' \
+  -cf - . | tar -C "$DEST_INPUT" -xf -
+mkdir -p "$DEST_INPUT/private"
+cp "$SOURCE/private/README.md" "$DEST_INPUT/private/README.md"
 find "$DEST_INPUT" -type d -name .git -prune -exec rm -rf {} +
 "$DEST_INPUT/scripts/init-engagement.sh"
 

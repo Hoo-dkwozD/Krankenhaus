@@ -8,13 +8,28 @@ Act as an evidence-first pentesting assistant. Work only within the scope in `En
 
 Conduct a complete, reproducible web-application assessment. Dynamically build the findings-to-look-for plan from the current application rather than blindly replaying a stale checklist.
 
+## Source-of-truth rule
+
+The user edits only human-readable files:
+
+- `engagement/Engagement-Info.md`
+- `engagement/Roles-and-Credentials.md`
+- `engagement/Task-Info.md`
+- `engagement/Checklist.md`
+- `engagement/Endpoint-Notes.md`
+- `engagement/Input-Point-Notes.md`
+- `catalogue/Finding-Catalogue.md`
+
+The user must not edit generated `config/*.yaml`, `config/*.csv`, `plans/*.csv`, or `plans/Finding-Plan.md` directly. After changing a source file, run `scripts/build-machine-state.py`; it regenerates machine-readable state and the finding plan.
+
+
 The workflow is:
 
 1. Read and validate engagement scope, dates, roles, tenants, and boundaries.
 2. Determine whether the engagement has started from the folder and supplied evidence.
 3. Perform reconnaissance before exploitation: public resources, Burp sitemap, UI routes, JavaScript/API references, roles, tenants, technologies, integrations, and data workflows.
 4. Reconcile the sitemap with the rendered UI. Identify direct routes, API-only/feature-gated surfaces, hidden methods, and role-sensitive endpoints.
-5. Build or refresh `plans/Finding-Plan.md` from `catalogue/Finding-Catalogue.md`, the sitemap, technologies actually present, and engagement-specific exclusions.
+5. Run `scripts/build-machine-state.py` to populate machine-readable configuration, inventories, and `plans/Finding-Plan.md` from the human-readable sources; reconcile the generated plan with the current sitemap, technologies, and engagement-specific exclusions.
 6. Test findings part-by-part, in priority order, one family at a time.
 7. For each finding family, map every possible input/entry point before testing. Record the source, sink, method, route, parameter/body field, UI location, role reachability, tenant, content type, and required fixture.
 8. Test every mapped input for every reachable role, in this order: **Super Admin → Admin → Supervisor → Agent**.

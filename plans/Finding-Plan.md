@@ -32,133 +32,133 @@
 
 | ID | Title | Default priority | Surface | Status |
 |---|---|---:|---|---|
-| `CXC-INF-01` | Banner and technology disclosure | P3 | public headers, HTML, assets, manifests, error pages | Planned |
-| `CXC-INF-02` | Default files and administrative defaults | P2 | public resources, framework files, health/debug/admin paths | Planned |
-| `CXC-INF-03` | Exposed files, backups, source maps, and build artifacts | P1 | asset graph, source maps, backups, VCS/deployment files | Planned |
-| `CXC-INF-04` | Web metafile and crawler leakage | P3 | robots.txt, sitemap.xml, security.txt, manifest | Planned |
-| `CXC-INF-05` | Application and architecture mapping gaps | P2 | Burp sitemap, JavaScript, route data, API versions, integrations | Planned |
-| `CXC-INF-06` | Information exposure through HTML, JavaScript, comments, and client configuration | P2 | HTML comments, chunks, route modules, configuration | Planned |
-| `CXC-INF-07` | Verbose errors, stack traces, debug modes, and correlation leakage | P2 | malformed requests, API errors, route errors, telemetry | Planned |
-| `CXC-INF-08` | TLS certificate, protocol, and transport weakness | P1 | HTTPS, redirects, approved subdomains, integrations | Planned |
-| `CXC-INF-09` | Deprecated, missing, or contradictory security headers | P3 | HTML, API, error, asset, authentication responses | Planned |
-| `CXC-INF-10` | HSTS not enforced or inconsistently scoped | P2 | HTTPS and redirect behavior | Planned |
-| `CXC-INF-11` | CSP absent, weak, bypassable, or inconsistent | P2 | HTML, API/error pages, CSP reports, rendered resources | Planned |
-| `CXC-INF-12` | Clickjacking and framing policy weakness | P2 | login, cases, admin, reports, profile, tenant/workflow pages | Planned |
-| `CXC-INF-13` | Cache poisoning, cache deception, and sensitive caching | P1 | CDN/proxy, HTML, API, route data, reports, dashboards | Planned |
+| `APP-INF-01` | Banner and technology disclosure | P3 | public headers, HTML, assets, manifests, error pages | Planned |
+| `APP-INF-02` | Default files and administrative defaults | P2 | public resources, framework files, health/debug/admin paths | Planned |
+| `APP-INF-03` | Exposed files, backups, source maps, and build artifacts | P1 | asset graph, source maps, backups, VCS/deployment files | Planned |
+| `APP-INF-04` | Web metafile and crawler leakage | P3 | robots.txt, sitemap.xml, security.txt, manifest | Planned |
+| `APP-INF-05` | Application and architecture mapping gaps | P2 | Burp sitemap, JavaScript, route data, API versions, integrations | Planned |
+| `APP-INF-06` | Information exposure through HTML, JavaScript, comments, and client configuration | P2 | HTML comments, chunks, route modules, configuration | Planned |
+| `APP-INF-07` | Verbose errors, stack traces, debug modes, and correlation leakage | P2 | malformed requests, API errors, route errors, telemetry | Planned |
+| `APP-INF-08` | TLS certificate, protocol, and transport weakness | P1 | HTTPS, redirects, approved subdomains, integrations | Planned |
+| `APP-INF-09` | Deprecated, missing, or contradictory security headers | P3 | HTML, API, error, asset, authentication responses | Planned |
+| `APP-INF-10` | HSTS not enforced or inconsistently scoped | P2 | HTTPS and redirect behavior | Planned |
+| `APP-INF-11` | CSP absent, weak, bypassable, or inconsistent | P2 | HTML, API/error pages, CSP reports, rendered resources | Planned |
+| `APP-INF-12` | Clickjacking and framing policy weakness | P2 | login, cases, admin, reports, profile, tenant/workflow pages | Planned |
+| `APP-INF-13` | Cache poisoning, cache deception, and sensitive caching | P1 | CDN/proxy, HTML, API, route data, reports, dashboards | Planned |
 
 ## Identity, authentication, sessions, and credentials
 
 | ID | Title | Default priority | Surface | Status |
 |---|---|---:|---|---|
-| `CXC-AUTH-01` | Username or account enumeration | P2 | login, recovery, verification, passkey, directory, email | Planned |
-| `CXC-AUTH-02` | Weak password policy and password quality enforcement | P1 | login, password change, expiry, tenant settings | Planned |
-| `CXC-AUTH-03` | Password autocomplete and credential exposure in browser behavior | P3 | login, reset/change, passkey, browser storage | Planned |
-| `CXC-AUTH-04` | Missing brute-force protection, rate-limit bypass, and credential-stuffing resistance | P1 | login, 2FA, passkey, recovery, verification | Planned |
-| `CXC-AUTH-05` | Account lockout and recovery abuse | P1 | recovery, expired-password, verification, support/admin recovery | Planned |
-| `CXC-AUTH-06` | Missing, optional, or bypassable MFA/2FA and passkey controls | P1 | login, 2FA, passkey, tenant settings, recovery | Planned |
-| `CXC-AUTH-07` | Authentication flow confusion and step skipping | P1 | CSRF, login, verify, 2FA, tenant selection, passkey | Planned |
-| `CXC-AUTH-08` | Session fixation and token issuance weakness | P1 | authentication cookies, login, tenant selection, WebSocket | Planned |
-| `CXC-AUTH-09` | JWT and token claim trust failures | P0 | token cookies, API authorization, tenant switching, WebSocket | Planned |
-| `CXC-AUTH-10` | Cookie attribute and scope weakness | P2 | session/CSRF/tenant cookies, integrations | Planned |
-| `CXC-AUTH-11` | Excessive session timeout, idle timeout, or failed revocation | P1 | session, verify, logout, password change, WebSocket | Planned |
-| `CXC-AUTH-12` | Concurrent sessions and device/session management weakness | P3 | login, profile, logout, password change, tenant selection | Planned |
-| `CXC-AUTH-13` | Broken logout | P1 | logout, browser session, API, WebSocket | Planned |
-| `CXC-AUTH-14` | Session hijacking and token exposure | P0 | URLs, referrers, logs, HTML, storage, integrations, WebSocket | Planned |
-| `CXC-AUTH-15` | OAuth, external identity, and passkey binding flaws | P1 | OAuth/SSO, passkey, external identity/call integrations | Planned |
+| `APP-AUTH-01` | Username or account enumeration | P2 | login, recovery, verification, passkey, directory, email | Planned |
+| `APP-AUTH-02` | Weak password policy and password quality enforcement | P1 | login, password change, expiry, tenant settings | Planned |
+| `APP-AUTH-03` | Password autocomplete and credential exposure in browser behavior | P3 | login, reset/change, passkey, browser storage | Planned |
+| `APP-AUTH-04` | Missing brute-force protection, rate-limit bypass, and credential-stuffing resistance | P1 | login, 2FA, passkey, recovery, verification | Planned |
+| `APP-AUTH-05` | Account lockout and recovery abuse | P1 | recovery, expired-password, verification, support/admin recovery | Planned |
+| `APP-AUTH-06` | Missing, optional, or bypassable MFA/2FA and passkey controls | P1 | login, 2FA, passkey, tenant settings, recovery | Planned |
+| `APP-AUTH-07` | Authentication flow confusion and step skipping | P1 | CSRF, login, verify, 2FA, tenant selection, passkey | Planned |
+| `APP-AUTH-08` | Session fixation and token issuance weakness | P1 | authentication cookies, login, tenant selection, WebSocket | Planned |
+| `APP-AUTH-09` | JWT and token claim trust failures | P0 | token cookies, API authorization, tenant switching, WebSocket | Planned |
+| `APP-AUTH-10` | Cookie attribute and scope weakness | P2 | session/CSRF/tenant cookies, integrations | Planned |
+| `APP-AUTH-11` | Excessive session timeout, idle timeout, or failed revocation | P1 | session, verify, logout, password change, WebSocket | Planned |
+| `APP-AUTH-12` | Concurrent sessions and device/session management weakness | P3 | login, profile, logout, password change, tenant selection | Planned |
+| `APP-AUTH-13` | Broken logout | P1 | logout, browser session, API, WebSocket | Planned |
+| `APP-AUTH-14` | Session hijacking and token exposure | P0 | URLs, referrers, logs, HTML, storage, integrations, WebSocket | Planned |
+| `APP-AUTH-15` | OAuth, external identity, and passkey binding flaws | P1 | OAuth/SSO, passkey, external identity/call integrations | Planned |
 
 ## Authorization, access control, and multi-tenancy
 
 | ID | Title | Default priority | Surface | Status |
 |---|---|---:|---|---|
-| `CXC-AC-01` | Broken vertical access control / BFLA | P0 | every API family, admin, reports, logs, jobs, settings | Planned |
-| `CXC-AC-02` | Broken horizontal access control / BOLA / IDOR | P0 | case, email, user, report, schedule, task, notification, queue, voice IDs | Planned |
-| `CXC-AC-03` | Tenant isolation failure | P0 | tenant picker/switch, settings, cases, email, reports, dashboards, WebSocket | Planned |
-| `CXC-AC-04` | UI/API permission mismatch | P1 | hidden buttons, permissions, cases, users, KB, reports, email, tasks | Planned |
-| `CXC-AC-05` | Unprotected or hidden routes | P1 | direct UI routes, route data, admin/config/schedule/supervisor APIs | Planned |
-| `CXC-AC-06` | Excessive data exposure | P1 | cases, email, users, dashboards, reports, logs, audit, agent data | Planned |
-| `CXC-AC-07` | Mass assignment and property-level authorization | P1 | case, user, team, task, email, KB, tenant, settings mutations | Planned |
-| `CXC-AC-08` | Report/export authorization and data leakage | P1 | catalogue, report packs/keys, exports, asynchronous downloads | Planned |
-| `CXC-AC-09` | Authorization through alternate methods or content types | P1 | all APIs, especially admin, cases, reports, authentication | Planned |
+| `APP-AC-01` | Broken vertical access control / BFLA | P0 | every API family, admin, reports, logs, jobs, settings | Planned |
+| `APP-AC-02` | Broken horizontal access control / BOLA / IDOR | P0 | case, email, user, report, schedule, task, notification, queue, voice IDs | Planned |
+| `APP-AC-03` | Tenant isolation failure | P0 | tenant picker/switch, settings, cases, email, reports, dashboards, WebSocket | Planned |
+| `APP-AC-04` | UI/API permission mismatch | P1 | hidden buttons, permissions, cases, users, KB, reports, email, tasks | Planned |
+| `APP-AC-05` | Unprotected or hidden routes | P1 | direct UI routes, route data, admin/config/schedule/supervisor APIs | Planned |
+| `APP-AC-06` | Excessive data exposure | P1 | cases, email, users, dashboards, reports, logs, audit, agent data | Planned |
+| `APP-AC-07` | Mass assignment and property-level authorization | P1 | case, user, team, task, email, KB, tenant, settings mutations | Planned |
+| `APP-AC-08` | Report/export authorization and data leakage | P1 | catalogue, report packs/keys, exports, asynchronous downloads | Planned |
+| `APP-AC-09` | Authorization through alternate methods or content types | P1 | all APIs, especially admin, cases, reports, authentication | Planned |
 
 ## Session integrity, CSRF, CORS, and browser controls
 
 | ID | Title | Default priority | Surface | Status |
 |---|---|---:|---|---|
-| `CXC-WEB-01` | CSRF protection failure | P1 | state-changing authentication, tenant, case, user, task, email, settings, admin APIs | Planned |
-| `CXC-WEB-02` | CORS policy weakness | P2 | API/preflight, login, integrations | Planned |
-| `CXC-WEB-03` | Tabnabbing and reverse-tabnabbing | P3 | external links, email, reports, KB, notifications, integrations | Planned |
-| `CXC-WEB-04` | Open redirect and unsafe redirect parameters | P2 | login, logout, recovery, tenant, integrations | Planned |
-| `CXC-WEB-05` | Host header injection and password-reset poisoning | P1 | redirects, recovery URLs, email generation, proxy boundary | Planned |
-| `CXC-WEB-06` | Sensitive data in URLs, referrers, or browser history | P2 | query strings, redirects, route data, third-party requests | Planned |
-| `CXC-WEB-07` | Browser storage and offline/PWA leakage | P1 | storage, IndexedDB, service worker, offline pages, push | Planned |
-| `CXC-WEB-08` | WebSocket authorization and tenant isolation | P0 | WebSocket, chat, voice, notifications | Planned |
-| `CXC-WEB-09` | WebRTC/call integration boundary weakness | P1 | voice, Amazon Connect, WebRTC, PWA permissions | Planned |
+| `APP-WEB-01` | CSRF protection failure | P1 | state-changing authentication, tenant, case, user, task, email, settings, admin APIs | Planned |
+| `APP-WEB-02` | CORS policy weakness | P2 | API/preflight, login, integrations | Planned |
+| `APP-WEB-03` | Tabnabbing and reverse-tabnabbing | P3 | external links, email, reports, KB, notifications, integrations | Planned |
+| `APP-WEB-04` | Open redirect and unsafe redirect parameters | P2 | login, logout, recovery, tenant, integrations | Planned |
+| `APP-WEB-05` | Host header injection and password-reset poisoning | P1 | redirects, recovery URLs, email generation, proxy boundary | Planned |
+| `APP-WEB-06` | Sensitive data in URLs, referrers, or browser history | P2 | query strings, redirects, route data, third-party requests | Planned |
+| `APP-WEB-07` | Browser storage and offline/PWA leakage | P1 | storage, IndexedDB, service worker, offline pages, push | Planned |
+| `APP-WEB-08` | WebSocket authorization and tenant isolation | P0 | WebSocket, chat, voice, notifications | Planned |
+| `APP-WEB-09` | WebRTC/call integration boundary weakness | P1 | voice, Amazon Connect, WebRTC, PWA permissions | Planned |
 
 ## Input validation and server-side injection
 
 | ID | Title | Default priority | Surface | Status |
 |---|---|---:|---|---|
-| `CXC-INJ-01` | Reflected, stored, and DOM-based XSS | P1 | cases, email, notifications, searches, KB, reports, logs, Svelte sinks | Planned |
-| `CXC-INJ-02` | SQL injection | P0 | search, sort/filter, pagination, reports, analytics, logs, dashboards | Planned |
-| `CXC-INJ-03` | NoSQL injection | P0 | JSON APIs, selectors, search/filter, login, cases, reports | Planned |
-| `CXC-INJ-04` | Server-side template injection | P0 | email, reports, notifications, KB, macros, templates | Planned |
-| `CXC-INJ-05` | OS command injection | P0 | reports, uploads, conversion, exports, jobs, diagnostics | Planned |
-| `CXC-INJ-06` | Path traversal and file inclusion | P0 | downloads, report keys, attachments, templates, static resources | Planned |
-| `CXC-INJ-07` | Unrestricted or unsafe file upload | P1 | cases, profile, KB, email, reports, attachments, admin tools | Planned |
-| `CXC-INJ-08` | Server-side request forgery | P0 | URL imports, webhooks, previews, reports, images, integrations | Planned |
-| `CXC-INJ-09` | XML external entity and unsafe XML processing | P0 | XML/SVG/SOAP/import/report/file processing | Planned |
-| `CXC-INJ-10` | Insecure deserialization | P0 | cookies, sessions, jobs, queues, reports, WebSocket/API bodies | Planned |
-| `CXC-INJ-11` | Prototype pollution and parameter pollution | P1 | JSON merge, search/filter, settings, saved searches, task/report config | Planned |
-| `CXC-INJ-12` | CRLF/header injection and response splitting | P1 | redirects, cookies, downloads, email, filenames, logging | Planned |
-| `CXC-INJ-13` | HTTP request smuggling and proxy desynchronization | P0 | reverse proxy, HTTP/2-to-HTTP/1 translation, connection reuse | Planned |
-| `CXC-INJ-14` | GraphQL-specific weaknesses | P1 | GraphQL endpoint if discovered | Planned |
+| `APP-INJ-01` | Reflected, stored, and DOM-based XSS | P1 | cases, email, notifications, searches, KB, reports, logs, Svelte sinks | Planned |
+| `APP-INJ-02` | SQL injection | P0 | search, sort/filter, pagination, reports, analytics, logs, dashboards | Planned |
+| `APP-INJ-03` | NoSQL injection | P0 | JSON APIs, selectors, search/filter, login, cases, reports | Planned |
+| `APP-INJ-04` | Server-side template injection | P0 | email, reports, notifications, KB, macros, templates | Planned |
+| `APP-INJ-05` | OS command injection | P0 | reports, uploads, conversion, exports, jobs, diagnostics | Planned |
+| `APP-INJ-06` | Path traversal and file inclusion | P0 | downloads, report keys, attachments, templates, static resources | Planned |
+| `APP-INJ-07` | Unrestricted or unsafe file upload | P1 | cases, profile, KB, email, reports, attachments, admin tools | Planned |
+| `APP-INJ-08` | Server-side request forgery | P0 | URL imports, webhooks, previews, reports, images, integrations | Planned |
+| `APP-INJ-09` | XML external entity and unsafe XML processing | P0 | XML/SVG/SOAP/import/report/file processing | Planned |
+| `APP-INJ-10` | Insecure deserialization | P0 | cookies, sessions, jobs, queues, reports, WebSocket/API bodies | Planned |
+| `APP-INJ-11` | Prototype pollution and parameter pollution | P1 | JSON merge, search/filter, settings, saved searches, task/report config | Planned |
+| `APP-INJ-12` | CRLF/header injection and response splitting | P1 | redirects, cookies, downloads, email, filenames, logging | Planned |
+| `APP-INJ-13` | HTTP request smuggling and proxy desynchronization | P0 | reverse proxy, HTTP/2-to-HTTP/1 translation, connection reuse | Planned |
+| `APP-INJ-14` | GraphQL-specific weaknesses | P1 | GraphQL endpoint if discovered | Planned |
 
 ## Business logic, resource controls, and workflow abuse
 
 | ID | Title | Default priority | Surface | Status |
 |---|---|---:|---|---|
-| `CXC-BIZ-01` | Workflow step bypass | P1 | cases, email approval, reports, jobs, authentication, tasks | Planned |
-| `CXC-BIZ-02` | Unauthorized state transition or privilege modification | P0 | case/user/task/email/settings/admin mutations | Planned |
-| `CXC-BIZ-03` | Race conditions and double-spend behavior | P1 | cases, email, tasks, reports, authentication, notifications | Planned |
-| `CXC-BIZ-04` | Unrestricted resource consumption | P1 | cases, reports, analytics, logs, notifications, uploads, WebSocket | Planned |
-| `CXC-BIZ-05` | Rate-limit and quota inconsistency | P1 | auth, recovery, APIs, reports, search, WebSocket, uploads | Planned |
-| `CXC-BIZ-06` | Client-side trust and hidden-field tampering | P1 | forms, JSON, query values, local storage, route data | Planned |
-| `CXC-BIZ-07` | Notification, read-state, and audit integrity | P1 | notifications, badges, briefing, audit, WebSocket | Planned |
-| `CXC-BIZ-08` | Email and outbound communication abuse | P1 | outbound email, email APIs, cases, notifications | Planned |
-| `CXC-BIZ-09` | Report, export, and scheduled-job abuse | P1 | reports, jobs, monitoring, analytics | Planned |
+| `APP-BIZ-01` | Workflow step bypass | P1 | cases, email approval, reports, jobs, authentication, tasks | Planned |
+| `APP-BIZ-02` | Unauthorized state transition or privilege modification | P0 | case/user/task/email/settings/admin mutations | Planned |
+| `APP-BIZ-03` | Race conditions and double-spend behavior | P1 | cases, email, tasks, reports, authentication, notifications | Planned |
+| `APP-BIZ-04` | Unrestricted resource consumption | P1 | cases, reports, analytics, logs, notifications, uploads, WebSocket | Planned |
+| `APP-BIZ-05` | Rate-limit and quota inconsistency | P1 | auth, recovery, APIs, reports, search, WebSocket, uploads | Planned |
+| `APP-BIZ-06` | Client-side trust and hidden-field tampering | P1 | forms, JSON, query values, local storage, route data | Planned |
+| `APP-BIZ-07` | Notification, read-state, and audit integrity | P1 | notifications, badges, briefing, audit, WebSocket | Planned |
+| `APP-BIZ-08` | Email and outbound communication abuse | P1 | outbound email, email APIs, cases, notifications | Planned |
+| `APP-BIZ-09` | Report, export, and scheduled-job abuse | P1 | reports, jobs, monitoring, analytics | Planned |
 
 ## Client-side and modern browser findings
 
 | ID | Title | Default priority | Surface | Status |
 |---|---|---:|---|---|
-| `CXC-CLIENT-01` | DOM XSS and unsafe client sinks | P1 | Svelte chunks, cases, email, reports, KB, notifications | Planned |
-| `CXC-CLIENT-02` | PostMessage and cross-window trust | P1 | CCP/WebRTC, embedded panels, popups, auth/passkey | Planned |
-| `CXC-CLIENT-03` | Third-party script and supply-chain exposure | P1 | CSP, HTML, CDN, Sentry, Cloudflare, Amazon Connect | Planned |
-| `CXC-CLIENT-04` | Outdated third-party libraries and software | P2 | assets, headers, build metadata, dependency evidence | Planned |
-| `CXC-CLIENT-05` | Service worker, cache, and push-notification privacy | P1 | PWA, service worker, notifications, dashboard, cases | Planned |
+| `APP-CLIENT-01` | DOM XSS and unsafe client sinks | P1 | Svelte chunks, cases, email, reports, KB, notifications | Planned |
+| `APP-CLIENT-02` | PostMessage and cross-window trust | P1 | CCP/WebRTC, embedded panels, popups, auth/passkey | Planned |
+| `APP-CLIENT-03` | Third-party script and supply-chain exposure | P1 | CSP, HTML, CDN, Sentry, Cloudflare, Amazon Connect | Planned |
+| `APP-CLIENT-04` | Outdated third-party libraries and software | P2 | assets, headers, build metadata, dependency evidence | Planned |
+| `APP-CLIENT-05` | Service worker, cache, and push-notification privacy | P1 | PWA, service worker, notifications, dashboard, cases | Planned |
 
 ## API-specific and protocol findings
 
 | ID | Title | Default priority | Surface | Status |
 |---|---|---:|---|---|
-| `CXC-API-01` | API inventory and method inconsistency | P1 | undocumented routes, query shapes, methods, loaders | Planned |
-| `CXC-API-02` | Object-level authorization (BOLA/IDOR) | P0 | all object/list APIs | Planned |
-| `CXC-API-03` | Function-level authorization (BFLA) | P0 | admin, reports, logs, monitoring, settings, management APIs | Planned |
-| `CXC-API-04` | Excessive data exposure and field-level authorization | P1 | cases, users, emails, dashboards, reports, logs, audit | Planned |
-| `CXC-API-05` | Mass assignment and unsafe object binding | P1 | users, cases, tasks, email, settings, KB, reports | Planned |
-| `CXC-API-06` | Pagination, filtering, sorting, and query abuse | P1 | cases, email, notifications, logs, audit, users, reports | Planned |
-| `CXC-API-07` | API rate limiting and resource control | P1 | auth, search, reports, analytics, logs, WebSocket, uploads | Planned |
-| `CXC-API-08` | Content-type, parser, and protocol confusion | P1 | auth, APIs, uploads, WebSocket upgrade, proxy | Planned |
-| `CXC-API-09` | GraphQL, OAuth, JWT, and API-key-specific controls | P0 | only if the technology is exposed | Planned |
+| `APP-API-01` | API inventory and method inconsistency | P1 | undocumented routes, query shapes, methods, loaders | Planned |
+| `APP-API-02` | Object-level authorization (BOLA/IDOR) | P0 | all object/list APIs | Planned |
+| `APP-API-03` | Function-level authorization (BFLA) | P0 | admin, reports, logs, monitoring, settings, management APIs | Planned |
+| `APP-API-04` | Excessive data exposure and field-level authorization | P1 | cases, users, emails, dashboards, reports, logs, audit | Planned |
+| `APP-API-05` | Mass assignment and unsafe object binding | P1 | users, cases, tasks, email, settings, KB, reports | Planned |
+| `APP-API-06` | Pagination, filtering, sorting, and query abuse | P1 | cases, email, notifications, logs, audit, users, reports | Planned |
+| `APP-API-07` | API rate limiting and resource control | P1 | auth, search, reports, analytics, logs, WebSocket, uploads | Planned |
+| `APP-API-08` | Content-type, parser, and protocol confusion | P1 | auth, APIs, uploads, WebSocket upgrade, proxy | Planned |
+| `APP-API-09` | GraphQL, OAuth, JWT, and API-key-specific controls | P0 | only if the technology is exposed | Planned |
 
 ## Logging, monitoring, and operational security
 
 | ID | Title | Default priority | Surface | Status |
 |---|---|---:|---|---|
-| `CXC-MON-01` | Log injection and log forging | P1 | client-error, user-action, app logs, audit, case/email fields | Planned |
-| `CXC-MON-02` | Sensitive data in logs, errors, monitoring, or telemetry | P1 | logs, audit, Sentry, client errors, telemetry | Planned |
-| `CXC-MON-03` | Audit trail integrity and completeness | P1 | audit logs, auth, tenant, privilege, user-action events | Planned |
-| `CXC-MON-04` | Monitoring/admin endpoint exposure | P1 | monitoring jobs, operations, readiness, health, logs, admin UI | Planned |
+| `APP-MON-01` | Log injection and log forging | P1 | client-error, user-action, app logs, audit, case/email fields | Planned |
+| `APP-MON-02` | Sensitive data in logs, errors, monitoring, or telemetry | P1 | logs, audit, Sentry, client errors, telemetry | Planned |
+| `APP-MON-03` | Audit trail integrity and completeness | P1 | audit logs, auth, tenant, privilege, user-action events | Planned |
+| `APP-MON-04` | Monitoring/admin endpoint exposure | P1 | monitoring jobs, operations, readiness, health, logs, admin UI | Planned |
 
 ## Dynamic additions
 

@@ -16,21 +16,23 @@ Reusable, GitHub-ready workspace for authorized web-application security engagem
 - Keep engagement-specific values editable in one place.
 - Never commit credentials, tokens, raw PII, Burp projects, or uncontrolled exports.
 - Compile a fresh finding plan from the current target, routes, roles, technologies, and scope.
-- Preserve the testing workflow used in the CxC engagement: Burp MCP routing, role order, UI/API comparison, complete input mapping, automated batches, conclusive proof, cleanup, and explicit blockers.
+- Preserve the reusable testing workflow: Burp MCP routing, role order, UI/API comparison, complete input mapping, automated batches, conclusive proof, cleanup, and explicit blockers.
 - Make evidence usable by both a human pentester and an automation agent.
 
 ## Repository layout
 
 ```text
-engagement/                  Human-readable source documents only
-config/                      Generated structured scope and role metadata
-catalogue/                   Human-readable finding catalogue
-plans/                       Generated finding plan and machine-readable inventories
-templates/                   Evidence and finding-record templates
+engagement/                  Human-readable web-app source documents
+config/                      Generated web-app scope and role metadata
+catalogue/                   Human-readable web-app finding catalogue
+plans/                       Generated web-app plan and inventories
+resource-bank/               Shared context bank: vulnerability-family resources, locators, and stubs
+llm/                         Separate LLM-mode sources, playbooks, evidence, and generated state
+templates/                   Web-app evidence and finding-record templates
 scripts/                     Safe generation, initialization, and plan commands
-evidence/                   Sanitized engagement evidence only
-findings/                   Final finding records and remediation notes
-private/                    Local-only credential references and sensitive notes
+evidence/                    Sanitized web-app engagement evidence
+findings/                    Web-app finding records and remediation notes
+private/                     Local-only credential references and sensitive notes
 ```
 
 ## New engagement workflow
@@ -46,10 +48,12 @@ private/                    Local-only credential references and sensitive notes
 
    ```bash
    ./scripts/new-engagement.sh \
-     --destination "$HOME/Documents/BDO Engagements/<Client>/<Month>/<Project>"
+     --destination "$HOME/Documents/Security Engagements/<Client>/<Period>/<Project>"
    ```
 
-3. Edit only the human-readable source files:
+3. Edit only the human-readable source files for the applicable mode:
+
+   **Web-application mode**
 
    - `engagement/Engagement-Info.md`
    - `engagement/Roles-and-Credentials.md`
@@ -58,22 +62,37 @@ private/                    Local-only credential references and sensitive notes
    - `engagement/Endpoint-Notes.md`
    - `engagement/Input-Point-Notes.md`
    - `catalogue/Finding-Catalogue.md`
+   - `resource-bank/Resource-Locator.md` and applicable family resources
+
+   **LLM testing mode**
+
+   - `llm/engagement/LLM-Engagement-Info.md`
+   - `llm/engagement/LLM-Target-Context.md`
+   - `llm/engagement/LLM-Policy-Matrix.md`
+   - `llm/engagement/LLM-Testing-Plan.md`
+   - `llm/playbooks/` reviewed playbooks and integrations
 
 4. Store credentials outside Git. Use `Roles-and-Credentials.md` only for usernames, role labels, tenant values, and secret references. Never put passwords or tokens in tracked files.
 
-5. Populate all generated machine-readable files:
+5. Build the machine-readable state:
 
    ```bash
-   cd "$HOME/Documents/BDO Engagements/<Client>/<Month>/<Project>"
    ./scripts/build-machine-state.py
+   ./scripts/build-llm-state.py
    ```
 
-   This generates `config/*.yaml`, `config/*.csv`, `plans/*.csv`, and `plans/Finding-Plan.md`.
+   Run the command for each active mode. The first generates web-app state; the second generates separate LLM-mode state under `llm/generated/`.
 
-6. Review the generated plan and inventories before any target request. Do not hand-edit generated files; change the Markdown source and regenerate.
+6. Review the generated plans and inventories before any target request. Do not hand-edit generated files; change the Markdown source and regenerate.
 
+7. Load the applicable context bank and playbook references before testing:
 
-7. Start with passive reconnaissance and Burp MCP sitemap review. Proceed only after scope, authorization window, roles, and test boundaries are complete.
+   - Web application: read `resource-bank/README.md`, `resource-bank/Resource-Locator.md`, and the relevant vulnerability-family directory after the current surface is mapped. Record the resource IDs, versions, provenance, and applicability used for each finding family.
+   - LLM testing: read `llm/playbooks/Playbook-Index.md` and the selected integration under `llm/playbooks/` after the target context and policy matrix are complete. A playbook reference guides approved testing; it does not activate a campaign or authorize a payload by itself.
+
+8. Start with passive reconnaissance and Burp MCP sitemap review. Proceed only after scope, authorization window, roles, test boundaries, and the selected context/playbook references are complete.
+
+9. Before each finding family or LLM campaign, re-check the selected resource/playbook version and engagement-specific exclusions. Do not send every resource-bank payload or technique automatically.
 
 ## Evidence rules
 

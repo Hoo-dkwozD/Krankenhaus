@@ -144,6 +144,9 @@ def write_config(fields: dict[str, str]) -> None:
         "finding_catalogue: catalogue/Finding-Catalogue.md",
         "endpoint_inventory: plans/Endpoint-Inventory.csv",
         "input_inventory: plans/Input-Point-Inventory.csv",
+        "context_bank: resource-bank",
+        "context_bank_locator: resource-bank/Resource-Locator.md",
+        "llm_playbook_index: llm/playbooks/Playbook-Index.md",
         "evidence_directory: evidence",
         "finding_directory: findings",
     ]

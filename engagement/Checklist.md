@@ -1,6 +1,6 @@
 # Engagement Checklist
 
-Use this checklist as the human execution gate. The active, engagement-specific finding list is generated in `plans/Finding-Plan.md`; this document covers the recurring process and the baseline control families carried forward from the legacy checklist.
+Use this checklist as the human execution gate. Select the web-app and/or separate LLM workstream. The active web-app finding list is generated in `plans/Finding-Plan.md`; the active LLM objective list is generated in `llm/generated/LLM-Finding-Plan.md`.
 
 ## Before testing
 
@@ -14,6 +14,19 @@ Use this checklist as the human execution gate. The active, engagement-specific 
 - [ ] Confirm approvals for mutations, uploads, SSRF/OOB, WebSocket frames, request smuggling, recovery/lockout, email/webhooks, third-party integrations, and concurrency.
 - [ ] Generate `plans/Finding-Plan.md`.
 - [ ] Create or refresh the endpoint and protected-operation inventories.
+- [ ] Read `resource-bank/README.md` and `resource-bank/Resource-Locator.md`; after surface mapping, select applicable family resources and record IDs, versions, provenance, and exclusions.
+
+## Mode selection and LLM testing
+
+- [ ] Select web-application mode, LLM testing mode, or both as separate workstreams.
+- [ ] If LLM mode is active, read `llm/README.md` and `llm/engagement/LLM-Source-of-Truth.md`.
+- [ ] Complete LLM business/user context, audience, age/vulnerability, jurisdiction, language, workflow, policy, and escalation fields.
+- [ ] Specify every LLM target's exact endpoint, method, authentication reference, prompt insertion path, response extraction path, streaming/multi-turn behavior, and reset procedure.
+- [ ] Record target model/provider/version, system-prompt visibility, guardrails, filters, memory, tools, RAG, rendering, and production parameters.
+- [ ] Complete and approve the LLM policy matrix, hard exclusions, proxy-only objectives, budget, rate, turn, reproduction, evidence, and human-review controls.
+- [ ] Run `scripts/build-llm-state.py`; do not edit `llm/generated/` directly.
+- [ ] Keep LLM prompts, responses, scores, campaigns, and findings separate from web-app evidence and findings.
+- [ ] Read `llm/playbooks/Playbook-Index.md` and the selected playbook integration; treat the playbook as a controlled reference, not automatic authorization or activation.
 
 ## Reconnaissance and UI/API comparison
 
@@ -26,6 +39,7 @@ Use this checklist as the human execution gate. The active, engagement-specific 
 - [ ] API-only, feature-gated, legacy, and discovered-only endpoints classified.
 - [ ] Protected endpoint matrix updated for each lower role.
 - [ ] Data workflows mapped from the end-user UI perspective.
+- [ ] Context-bank resources and selected LLM playbook references are recorded for the surfaces and finding families that will be tested.
 
 ## Baseline information and configuration controls
 

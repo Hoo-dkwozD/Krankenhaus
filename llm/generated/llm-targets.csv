@@ -1,0 +1,2 @@
+target_id,surface_type,endpoint,method,auth_reference,prompt_insertion_path,response_extraction_path,streaming,multi_turn,upload_rag_surface,tools_actions,memory_session,model_name,model_version,provider,system_prompt_visibility,guardrail_layers,production_parameters,status,notes
+TARGET-001,http_api; ui; widget; websocket; rag_ingest,https://EDIT_ME/EDIT_ME,POST,private/credentials.env or vault,EDIT_ME,EDIT_ME,false,EDIT_ME,none,none,EDIT_ME,EDIT_ME,EDIT_ME,EDIT_ME,EDIT_ME,EDIT_ME,EDIT_ME,Planned,Replace every EDIT_ME value

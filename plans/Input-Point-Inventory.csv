@@ -1,2 +1,2 @@
 input_id,finding_family,role,method,path,location_or_field,source_type,sink_or_behavior,content_type,tenant_scope,fixture_required,batch,status,evidence_reference,notes
-IN-0001,CXC-INJ-01,Super Admin,GET,/EDIT_ME,EDIT_ME,query,EDIT_ME,application/json,EDIT_ME,no,1,Planned,,Replace this row with the first mapped input
+IN-0001,APP-INJ-01,Super Admin,GET,/EDIT_ME,EDIT_ME,query,EDIT_ME,application/json,EDIT_ME,no,1,Planned,,Replace this row with the first mapped input

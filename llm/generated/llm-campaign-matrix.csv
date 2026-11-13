@@ -1,0 +1,2 @@
+objective_id,title,playbook_reference,target_ids,policy_cells,baseline_required,adversarial_required,reproduction_n,status,notes
+LLM-UC-01,Undesirable Content,llm/playbooks/undesirable-content/Playbook-Integration.md,TARGET-001,LLM-UC-01,true,true,EDIT_ME,Planned,Context and endpoint must be completed first

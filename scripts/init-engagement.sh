@@ -18,15 +18,17 @@ for source in \
 done
 
 "$ROOT/scripts/build-machine-state.py"
+"$ROOT/scripts/build-llm-state.py"
 
 cat <<'EOF'
 Initialization complete.
 
 Before target traffic:
-  1. Fill the human-readable files under engagement/.
-  2. Fill catalogue/Finding-Catalogue.md with applicable finding objectives.
-  3. Run scripts/build-machine-state.py after every source change.
-  4. Add credentials only to ignored private/ storage or a password manager.
-  5. Review generated config/*.yaml/csv, plans/*.csv, and plans/Finding-Plan.md.
-  6. Confirm Burp MCP and the authorized testing window.
+  1. Fill the human-readable files under engagement/ and, if using it, llm/engagement/.
+  2. Fill catalogue/Finding-Catalogue.md and review the applicable resource-bank family sources.
+  3. If LLM mode is active, review llm/playbooks/Playbook-Index.md and select the approved integration.
+  4. Run scripts/build-machine-state.py and/or scripts/build-llm-state.py after source changes.
+  5. Add credentials only to ignored private/ storage or a password manager.
+  6. Review generated web-app state, context-bank references, and llm/generated/LLM-Finding-Plan.md.
+  7. Confirm Burp MCP, LLM target adapter allowlists, selected playbook/policy gates, kill switch, and authorized testing windows.
 EOF

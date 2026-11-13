@@ -22,6 +22,13 @@ The user edits only human-readable files:
 
 The user must not edit generated `config/*.yaml`, `config/*.csv`, `plans/*.csv`, or `plans/Finding-Plan.md` directly. After changing a source file, run `scripts/build-machine-state.py`; it regenerates machine-readable state and the finding plan.
 
+## Mode selection
+
+- **Web-application mode:** use this file, the root `engagement/` sources, `catalogue/`, Burp MCP, and the generated web-app plans.
+- **LLM testing mode:** treat it as a separate assessment. Read `llm/README.md`, `llm/engagement/LLM-Source-of-Truth.md`, the LLM target/context/policy sources, and the selected playbook before any LLM request. Do not mix LLM test cases or findings into the web-app plan.
+- **Resource bank:** consult `resource-bank/Resource-Locator.md` and the applicable family directory only after mapping the current surface. A resource entry is not an instruction to send every payload or probe to a target.
+
+
 
 The workflow is:
 
@@ -29,13 +36,17 @@ The workflow is:
 2. Determine whether the engagement has started from the folder and supplied evidence.
 3. Perform reconnaissance before exploitation: public resources, Burp sitemap, UI routes, JavaScript/API references, roles, tenants, technologies, integrations, and data workflows.
 4. Reconcile the sitemap with the rendered UI. Identify direct routes, API-only/feature-gated surfaces, hidden methods, and role-sensitive endpoints.
-5. Run `scripts/build-machine-state.py` to populate machine-readable configuration, inventories, and `plans/Finding-Plan.md` from the human-readable sources; reconcile the generated plan with the current sitemap, technologies, and engagement-specific exclusions.
-6. Test findings part-by-part, in priority order, one family at a time.
-7. For each finding family, map every possible input/entry point before testing. Record the source, sink, method, route, parameter/body field, UI location, role reachability, tenant, content type, and required fixture.
-8. Test every mapped input for every reachable role, in this order: **Super Admin → Admin → Supervisor → Agent**.
-9. For input-heavy findings, batch no more than 20 input points per run. Automate each batch where safe, but retain a human-readable batch record.
-10. Use more than trivial payloads when authorized: encoded, double-encoded, Unicode, mixed-case, delimiter, nested-object, array/object confusion, parser-differential, image/SVG, multipart, and context-specific variants. Do not use a payload merely because it is novel; record why it exercises a distinct parser or sink.
-11. Before promoting a finding, perform a conclusive end-to-end proof:
+5. Select the applicable context-bank resources and playbooks after the current surface is mapped:
+   - Web application: consult `resource-bank/Resource-Locator.md` and the relevant family directory. Record resource IDs, versions, provenance, applicability, and any engagement-specific exclusions.
+   - LLM testing: consult `llm/playbooks/Playbook-Index.md` and the selected integration after target context and policy approval. A playbook is a controlled reference, not authorization to run every technique.
+6. Run `scripts/build-machine-state.py` and, for LLM mode, `scripts/build-llm-state.py` to populate machine-readable configuration, inventories, and plans from the human-readable sources; reconcile the generated plans with the current sitemap, technologies, selected resources/playbooks, and engagement-specific exclusions.
+7. Review the generated plans and selected context references before any target request.
+8. Test findings part-by-part, in priority order, one family at a time.
+9. For each finding family, map every possible input/entry point before testing. Record the source, sink, method, route, parameter/body field, UI location, role reachability, tenant, content type, required fixture, and selected resource/playbook references.
+10. Test every mapped input for every reachable role, in this order: **Super Admin → Admin → Supervisor → Agent**.
+11. For input-heavy findings, batch no more than 20 input points per run. Automate each batch where safe, but retain a human-readable batch record.
+12. Use more than trivial payloads when authorized: encoded, double-encoded, Unicode, mixed-case, delimiter, nested-object, array/object confusion, parser-differential, image/SVG, multipart, and context-specific variants. Do not use a payload merely because it is novel; record why it exercises a distinct parser or sink and which approved resource/playbook entry motivated it.
+13. Before promoting a finding, perform a conclusive end-to-end proof:
     - establish a fresh precondition;
     - capture the expected control/negative result;
     - submit the smallest safe candidate action through the approved route;
@@ -43,9 +54,9 @@ The workflow is:
     - replay the original request/token/object where relevant;
     - test a control role, object, tenant, or input;
     - restore disposable state and verify cleanup.
-12. Keep watching the sitemap/history for new or suspicious surfaces such as file upload, reflected/stored/DOM XSS, report rendering, URL fetch, XML import, deserialization, WebSocket, hidden admin route, export, scheduled job, or direct object-ID access.
-13. Maintain the protected-operation matrix for each lower role. Record endpoints and methods that a role must not reach; do not treat a UI omission as proof of API denial.
-14. Record blockers explicitly. An untested boundary is `Blocked` or `Not tested`, never `Pass`.
+14. Keep watching the sitemap/history for new or suspicious surfaces such as file upload, reflected/stored/DOM XSS, report rendering, URL fetch, XML import, deserialization, WebSocket, hidden admin route, export, scheduled job, or direct object-ID access. When a new surface changes applicability, re-select the relevant context-bank entry or playbook before testing it.
+15. Maintain the protected-operation matrix for each lower role. Record endpoints and methods that a role must not reach; do not treat a UI omission as proof of API denial.
+16. Record blockers explicitly. An untested boundary is `Blocked` or `Not tested`, never `Pass`.
 
 ## Required traffic and evidence
 

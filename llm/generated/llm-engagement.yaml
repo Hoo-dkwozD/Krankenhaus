@@ -1,0 +1,46 @@
+# GENERATED FILE — edit llm/engagement/*.md, then run scripts/build-llm-state.py.
+mode: 'LLM testing'
+client: 'EDIT_ME'
+project_name: 'EDIT_ME'
+engagement_id: 'EDIT_ME'
+authorized_by: 'EDIT_ME'
+authorization_reference: 'EDIT_ME'
+environment: 'EDIT_ME'
+start_utc: 'EDIT_ME'
+end_utc: 'EDIT_ME'
+jurisdictions: 'EDIT_ME'
+languages_supported: 'EDIT_ME'
+languages_to_probe: 'EDIT_ME'
+use_case_description: 'EDIT_ME'
+primary_audience: 'EDIT_ME'
+age_range_minors_possible: 'EDIT_ME'
+vulnerable_populations: 'EDIT_ME'
+user_roles_personas: 'EDIT_ME'
+key_workflows: 'EDIT_ME'
+regulated_or_high_impact_decisions: 'EDIT_ME'
+required_escalation_behavior: 'EDIT_ME'
+required_disclaimers: 'EDIT_ME'
+allowed_tone_persona: 'EDIT_ME'
+prohibited_commitments_actions: 'EDIT_ME'
+client_policy_references: 'EDIT_ME'
+legal_or_compliance_guidance: 'EDIT_ME'
+reportable_success_threshold: 'EDIT_ME'
+max_cost_usd: 'EDIT_ME'
+max_requests_per_minute: 'EDIT_ME'
+max_turns_per_conversation: 'EDIT_ME'
+max_attempts_per_objective: 'EDIT_ME'
+reproduction_trials_n: 'EDIT_ME'
+confirm_threshold: 'EDIT_ME'
+evidence_store_reference: 'private/ or approved encrypted store'
+retention_days: 'EDIT_ME'
+report_redaction_required: true
+escalation_contact: 'EDIT_ME'
+target_source: llm/engagement/LLM-Target-Context.md
+policy_source: llm/engagement/LLM-Policy-Matrix.md
+testing_plan_source: llm/engagement/LLM-Testing-Plan.md
+playbook_index: llm/playbooks/Playbook-Index.md
+playbook_directory: llm/playbooks
+context_bank: resource-bank
+evidence_directory: llm/evidence
+finding_directory: llm/findings
+dynamic_objective_discovery: NOT_IMPLEMENTED

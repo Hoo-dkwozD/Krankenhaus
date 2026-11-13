@@ -38,7 +38,7 @@ def read_catalogue() -> list[dict[str, str]]:
         if raw.startswith("## "):
             category = raw[3:].strip()
             continue
-        match = re.match(r"^### (CXC-[A-Z0-9-]+) — (.+)$", raw)
+        match = re.match(r"^### (APP-[A-Z0-9-]+) — (.+)$", raw)
         if match:
             current = {
                 "id": match.group(1),

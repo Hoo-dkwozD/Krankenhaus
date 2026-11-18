@@ -1,6 +1,6 @@
 # Baseline Finding Catalogue
 
-This is a catalogue of test objectives, not a list of findings. `scripts/build-finding-plan.py` compiles the active plan from this file for each engagement. Add, disable, or annotate entries based on the actual sitemap, technologies, role model, and authorization.
+This is a catalogue of test objectives, not a list of findings. Before testing, the LLM reconciles it with the current sitemap, UI/API map, technologies, role model, and reviewed resource references, then writes the applicable objectives into `plans/Finding-Plan.md`. Add, disable, or annotate entries based on the actual surface.
 
 Priority is a default planning value: P0 = critical/high impact, P1 = high, P2 = medium, P3 = low/informational. Replace it after evidence.
 
@@ -41,6 +41,7 @@ Priority is a default planning value: P0 = critical/high impact, P1 = high, P2 =
 ### APP-INF-09 — Deprecated, missing, or contradictory security headers
 - Default priority: P3
 - Surface: HTML, API, error, asset, authentication responses
+- Coverage: compare current standards with missing, weak, contradictory, inconsistent, obsolete, and deprecated headers across normal, authenticated, API, asset, redirect, error, and download responses; classify impact rather than reporting age alone
 
 ### APP-INF-10 — HSTS not enforced or inconsistently scoped
 - Default priority: P2

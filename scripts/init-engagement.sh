@@ -9,26 +9,27 @@ chmod 700 "$ROOT/private"
 for source in \
   "$ROOT/engagement/Engagement-Info.md" \
   "$ROOT/engagement/Roles-and-Credentials.md" \
-  "$ROOT/engagement/Endpoint-Notes.md" \
-  "$ROOT/engagement/Input-Point-Notes.md"; do
+  "$ROOT/engagement/Task-Info.md" \
+  "$ROOT/engagement/Checklist.md" \
+  "$ROOT/catalogue/Finding-Catalogue.md" \
+  "$ROOT/resource-bank/Resource-Locator.md"; do
   if [[ ! -f "$source" ]]; then
     echo "Missing human-readable source: $source" >&2
     exit 1
   fi
 done
 
-"$ROOT/scripts/build-machine-state.py"
-"$ROOT/scripts/build-llm-state.py"
-
 cat <<'EOF'
-Initialization complete.
+Workspace initialized.
 
 Before target traffic:
-  1. Fill the human-readable files under engagement/ and, if using it, llm/engagement/.
-  2. Fill catalogue/Finding-Catalogue.md and review the applicable resource-bank family sources.
-  3. If LLM mode is active, review llm/playbooks/Playbook-Index.md and select the approved integration.
-  4. Run scripts/build-machine-state.py and/or scripts/build-llm-state.py after source changes.
-  5. Add credentials only to ignored private/ storage or a password manager.
-  6. Review generated web-app state, context-bank references, and llm/generated/LLM-Finding-Plan.md.
-  7. Confirm Burp MCP, LLM target adapter allowlists, selected playbook/policy gates, kill switch, and authorized testing windows.
+  1. Fill the target URL, Burp MCP endpoint (default http://127.0.0.1:9876), credential references, supplied roles, and any optional notes.
+  2. Read all engagement sources, the finding catalogue, and the resource-bank sources.
+  3. Retrieve and review each applicable enabled online resource; record the extracted references in plans/Resource-Review.md.
+  4. Build plans/Operational-State.md, plans/Finding-Plan.md, plans/Endpoint-Inventory.md,
+     plans/Input-Point-Inventory.md, and plans/Protected-Operations.md directly.
+  5. Use Burp MCP as the primary interface; review its sitemap/history and perform request-based testing there.
+  6. Use the direct browser only for a recorded MCP/tooling, rendering, browser-state, visual, or interaction-specific gap.
+  7. Test every mapped boundary and every distinct valid instance; do not stop after the first finding.
+  8. Do not run denial-of-service or unbounded load testing. Keep rate-limit testing bounded.
 EOF

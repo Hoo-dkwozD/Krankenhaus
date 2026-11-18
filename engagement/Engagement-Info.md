@@ -1,76 +1,35 @@
-# Engagement Info
+# Engagement Inputs
 
-> Complete this document before reconnaissance. Do not store passwords, session tokens, API keys, private certificates, or raw personal data here.
+> Minimal human-readable input. Complete the target, credential references, roles, and any engagement-specific notes. The LLM builds the operational state from these files, the current application, Burp MCP, and the resource bank before testing.
 
-## Identification
-
-| Field | Value |
-|---|---|
-| Client | `EDIT_ME` |
-| Project name | `EDIT_ME` |
-| Engagement ID | `EDIT_ME` |
-| Assessment type | `Web application penetration test` |
-| Owner/pentest firm | `EDIT_ME` |
-| Primary tester | `EDIT_ME` |
-| Date/time zone | `EDIT_ME` |
-| Authorization reference | `EDIT_ME` |
-
-## Scope
+## Target and tooling
 
 | Field | Value |
 |---|---|
-| Primary URL | `https://EDIT_ME/` |
-| Approved hostnames | `EDIT_ME` |
-| Approved IPs/CIDRs | `EDIT_ME` |
-| Approved ports/protocols | `EDIT_ME` |
-| Excluded assets | `EDIT_ME` |
-| Start (UTC) | `EDIT_ME` |
-| End (UTC) | `EDIT_ME` |
-| Emergency contact | `EDIT_ME` |
-| Stop condition/contact | `EDIT_ME` |
-
-## Tooling and routing
-
-| Field | Value |
-|---|---|
+| Primary application URL | `https://EDIT_ME/` |
+| Additional approved hosts or paths (optional) | `None` |
+| Exclusions (optional) | `None` |
 | Burp MCP endpoint | `http://127.0.0.1:9876` |
-| Browser | `EDIT_ME` |
-| Burp project/evidence location | `private/` or approved secure location; never commit it |
-| Direct target traffic permitted? | `NO — use Burp MCP unless explicitly changed` |
-| OOB listener | `NOT_APPROVED_UNTIL_FILLED` |
+| Browser fallback notes (optional) | `Use Burp MCP by default; use the browser only when needed` |
 
-## Supplied roles
+Burp MCP is the primary interface for reconnaissance, request capture, replay, modification, sitemap review, and evidence collection. Use direct browser interaction only when Burp MCP cannot expose or exercise the required UI behavior, such as rendering-dependent flows, browser-only state, visual confirmation, or an MCP/tooling blocker. Record the reason for direct browser use in the operational state.
 
-The canonical role order is:
+## Credentials and roles
 
-1. Super Admin / highest privilege
-2. Admin
-3. Supervisor
-4. Agent / lowest privilege
+Credential references belong in `Roles-and-Credentials.md`. Store passwords, tokens, and API keys only in ignored `private/` storage or a password manager.
 
-Role labels, usernames, tenant assignment, and secret references belong in `engagement/Roles-and-Credentials.md`. Passwords belong in a password manager or ignored `private/credentials.env` file. Run `scripts/build-machine-state.py` to generate `config/roles.csv`.
+## Test data and cleanup
 
-## Authorization boundaries
+| Field | Value |
+|---|---|
+| Test accounts or disposable data (optional) | `None` |
+| Cleanup instructions (optional) | `None` |
+| Application-specific notes (optional) | `None` |
 
-- [ ] Read-only reconnaissance approved
-- [ ] Authenticated testing approved
-- [ ] Low-impact input canaries approved
-- [ ] Disposable object creation and cleanup approved
-- [ ] File-upload tests approved
-- [ ] SSRF/OOB tests approved
-- [ ] Request-smuggling/persistent-connection tests approved
-- [ ] WebSocket frame/message tests approved
-- [ ] Password/recovery/lockout tests approved
-- [ ] Email/webhook/report delivery tests approved
-- [ ] Third-party/CCP/WebRTC actions approved
-- [ ] Concurrency tests approved
-- [ ] Destructive or irreversible actions approved separately
+## Testing defaults
 
-## Engagement-specific notes
+This template assumes an extensive authorized web-application assessment. Test all supplied roles, endpoints, methods, inputs, workflows, and valid instances of each applicable finding. Do not run denial-of-service or unbounded load testing; rate-limit testing must remain bounded and separately identified.
 
-- Default tenant(s): `EDIT_ME`
-- Test data/fixture namespace: `EDIT_ME`
-- Allowed disposable destination(s): `EDIT_ME`
-- Required cleanup procedure: `EDIT_ME`
-- Known maintenance windows: `EDIT_ME`
-- Reporting requirements: `EDIT_ME`
+## Free-form engagement notes
+
+Add any useful context here. The field is intentionally open-ended and may be brief or detailed.

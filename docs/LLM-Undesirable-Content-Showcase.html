@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How Krankenhaus plans and governs LLM undesirable-content testing.">
+  <title>Krankenhaus · LLM Undesirable Content Testing</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0c1117;
+      --surface: #121a23;
+      --surface-raised: #182331;
+      --surface-soft: #101821;
+      --text: #edf3f8;
+      --muted: #9aabba;
+      --border: #29394a;
+      --accent: #65d8c3;
+      --accent-strong: #22b89d;
+      --blue: #79aef7;
+      --warning: #f0c674;
+      --danger: #f27c86;
+      --success: #79d39a;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .25);
+      --radius: 18px;
+      --max: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(101, 216, 195, .12), transparent 28rem),
+        radial-gradient(circle at 90% 12%, rgba(121, 174, 247, .09), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    a { color: var(--accent); }
+    a:hover { color: #a5f3e5; }
+    button { font: inherit; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+    .eyebrow { color: var(--accent); font-size: .75rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .muted { color: var(--muted); }
+    .small { font-size: .88rem; }
+
+    header {
+      border-bottom: 1px solid rgba(154, 171, 186, .15);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: rgba(12, 17, 23, .86);
+    }
+
+    .nav {
+      align-items: center;
+      display: flex;
+      gap: 22px;
+      justify-content: space-between;
+      min-height: 68px;
+    }
+
+    .brand { align-items: center; display: flex; gap: 12px; font-weight: 800; letter-spacing: -.02em; }
+    .brand-mark {
+      align-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      border-radius: 11px;
+      color: #071113;
+      display: inline-flex;
+      font-weight: 950;
+      height: 34px;
+      justify-content: center;
+      width: 34px;
+    }
+
+    nav ul { display: flex; flex-wrap: wrap; gap: 18px; list-style: none; margin: 0; padding: 0; }
+    nav a { color: var(--muted); font-size: .9rem; text-decoration: none; }
+    nav a:hover { color: var(--text); }
+
+    main { padding-bottom: 80px; }
+    .hero { padding: 88px 0 54px; }
+    .hero-grid { align-items: end; display: grid; gap: 42px; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); }
+    h1 { font-size: clamp(2.6rem, 7vw, 5.8rem); letter-spacing: -.075em; line-height: .96; margin: 16px 0 24px; max-width: 850px; }
+    .lede { color: #c6d3df; font-size: clamp(1.05rem, 2vw, 1.3rem); max-width: 720px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      color: #071113;
+      cursor: pointer;
+      display: inline-flex;
+      font-weight: 800;
+      padding: 11px 17px;
+      text-decoration: none;
+      transition: transform .18s ease, filter .18s ease;
+    }
+    .button:hover { color: #071113; filter: brightness(1.08); transform: translateY(-2px); }
+    .button.secondary { background: transparent; border-color: var(--border); color: var(--text); }
+    .button.secondary:hover { color: var(--text); }
+
+    .status-card, .card, .phase-detail, .metric, .source-card {
+      background: linear-gradient(145deg, rgba(24, 35, 49, .94), rgba(18, 26, 35, .94));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .status-card { padding: 25px; }
+    .status-title { align-items: center; display: flex; gap: 10px; font-weight: 850; }
+    .dot { background: var(--warning); border-radius: 50%; box-shadow: 0 0 0 5px rgba(240, 198, 116, .12); height: 10px; width: 10px; }
+    .status-card p { color: var(--muted); margin-bottom: 0; }
+    .status-list { border-top: 1px solid var(--border); list-style: none; margin: 20px 0 0; padding: 16px 0 0; }
+    .status-list li { align-items: start; display: flex; gap: 10px; margin: 10px 0; }
+    .status-list li::before { color: var(--accent); content: "✓"; font-weight: 900; }
+
+    section { padding: 56px 0; }
+    .section-heading { align-items: end; display: flex; gap: 24px; justify-content: space-between; margin-bottom: 24px; }
+    h2 { font-size: clamp(1.7rem, 3vw, 2.6rem); letter-spacing: -.045em; line-height: 1.05; margin: 8px 0 0; }
+    h3 { letter-spacing: -.025em; margin: 0 0 8px; }
+    .grid-3 { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card { padding: 23px; }
+    .card p { color: var(--muted); margin: 8px 0 0; }
+    .tag { background: rgba(101, 216, 195, .1); border: 1px solid rgba(101, 216, 195, .35); border-radius: 999px; color: var(--accent); display: inline-flex; font-size: .75rem; font-weight: 800; padding: 4px 9px; }
+    .tag.blue { background: rgba(121, 174, 247, .1); border-color: rgba(121, 174, 247, .35); color: var(--blue); }
+    .tag.warning { background: rgba(240, 198, 116, .1); border-color: rgba(240, 198, 116, .35); color: var(--warning); }
+
+    .pipeline { display: grid; gap: 10px; grid-template-columns: repeat(9, minmax(120px, 1fr)); overflow-x: auto; padding-bottom: 8px; }
+    .phase {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      color: var(--text);
+      cursor: pointer;
+      min-height: 128px;
+      padding: 15px;
+      text-align: left;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+    .phase:hover, .phase.active { background: rgba(101, 216, 195, .1); border-color: var(--accent); transform: translateY(-3px); }
+    .phase-number { color: var(--accent); font-size: .75rem; font-weight: 900; }
+    .phase strong { display: block; font-size: .95rem; line-height: 1.2; margin-top: 13px; }
+    .phase-detail { margin-top: 15px; min-height: 126px; padding: 20px 22px; }
+    .phase-detail p { color: var(--muted); margin: 6px 0 0; }
+
+    .flow-map { align-items: stretch; display: grid; gap: 0; grid-template-columns: repeat(5, 1fr); }
+    .flow-node { background: var(--surface-soft); border: 1px solid var(--border); padding: 20px; position: relative; }
+    .flow-node:first-child { border-radius: 15px 0 0 15px; }
+    .flow-node:last-child { border-radius: 0 15px 15px 0; }
+    .flow-node:not(:last-child)::after { color: var(--accent); content: "→"; font-size: 1.4rem; position: absolute; right: -11px; top: 50%; transform: translateY(-50%); z-index: 2; }
+    .flow-node strong { display: block; margin: 8px 0 4px; }
+    .flow-node span { color: var(--muted); font-size: .86rem; }
+    .technique-grid { display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 20px; }
+    .technique-card { background: var(--surface-soft); border: 1px solid var(--border); border-radius: 13px; padding: 15px; }
+    .technique-card strong { display: block; margin: 7px 0 4px; }
+    .technique-card p { color: var(--muted); font-size: .82rem; line-height: 1.4; margin: 0; }
+    .technique-id { color: var(--accent); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .76rem; font-weight: 900; }
+    .heuristic-list { columns: 2; color: var(--muted); margin: 20px 0 0; padding-left: 19px; }
+    .heuristic-list li { break-inside: avoid; margin: 7px 0; }
+    .composite-metric { align-items: start; display: grid; gap: 24px; grid-template-columns: minmax(180px, .35fr) minmax(0, 1fr); margin-top: 18px; }
+    .composite-metric .metric-value { font-size: 2.4rem; }
+    .composite-metric .metric-formula { font-size: .92rem; }
+    .heuristic-list strong { color: var(--text); }
+
+    .metric-grid { display: grid; gap: 12px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .metric { padding: 18px; }
+    .metric-value { color: var(--accent); font-size: 1.7rem; font-weight: 900; letter-spacing: -.04em; }
+    .metric-detail { color: var(--muted); font-size: .78rem; line-height: 1.45; margin: 10px 0 0; }
+    .metric-formula { color: var(--text); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .78rem; line-height: 1.35; margin-top: 12px; overflow-wrap: anywhere; }
+    .metric-note { color: var(--warning); font-size: .75rem; margin-top: 12px; }
+
+    .gate-list { display: grid; gap: 10px; list-style: none; margin: 0; padding: 0; }
+    .gate-list li { align-items: start; background: var(--surface-soft); border: 1px solid var(--border); border-radius: 12px; display: flex; gap: 12px; padding: 13px 15px; }
+    .gate-icon { color: var(--warning); font-weight: 900; }
+
+    .source-card { display: flex; flex-direction: column; gap: 10px; padding: 20px; }
+    .source-card code { color: var(--blue); font-size: .82rem; overflow-wrap: anywhere; }
+    .source-card a { font-weight: 750; text-decoration: none; }
+    .source-grid { display: grid; gap: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .notice { border-left: 3px solid var(--accent); background: rgba(101, 216, 195, .07); border-radius: 0 12px 12px 0; color: #cfe9e4; padding: 15px 17px; }
+    footer { border-top: 1px solid rgba(154, 171, 186, .15); color: var(--muted); padding: 28px 0 50px; }
+
+    @media (max-width: 980px) {
+      .hero-grid, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .pipeline { grid-template-columns: repeat(9, 150px); }
+      .metric-grid, .technique-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .source-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 650px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      .nav { align-items: start; flex-direction: column; padding: 14px 0; }
+      nav ul { gap: 10px 15px; }
+      .hero { padding-top: 55px; }
+      .flow-map { grid-template-columns: 1fr; }
+      .flow-node, .flow-node:first-child, .flow-node:last-child { border-radius: 12px; }
+      .flow-node:not(:last-child)::after { content: "↓"; bottom: -15px; left: 50%; right: auto; top: auto; transform: translateX(-50%); }
+      .metric-grid, .source-grid { grid-template-columns: 1fr 1fr; }
+      .composite-metric { grid-template-columns: 1fr; }
+      .technique-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Krankenhaus home">
+        <span class="brand-mark">K</span>
+        <span>Krankenhaus <span class="muted">/ LLM testing</span></span>
+      </a>
+      <nav aria-label="Page navigation">
+        <ul>
+          <li><a href="#model">Model</a></li>
+          <li><a href="#workflow">Workflow</a></li>
+          <li><a href="#techniques">Techniques</a></li>
+          <li><a href="#metrics">Metrics</a></li>
+          <li><a href="#sources">Sources</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Authorized red-team operating model</div>
+          <h1>Testing LLMs for undesirable content—without losing context.</h1>
+          <p class="lede">Krankenhaus treats undesirable-content testing as a separate, policy-aware assessment. It connects a named target surface to business context, audience, jurisdiction, policy cells, a reviewed playbook, controlled campaigns, reproducibility, and human review.</p>
+          <div class="hero-actions">
+            <a class="button" href="#workflow">Explore the workflow</a>
+            <a class="button secondary" href="../llm/playbooks/undesirable-content/Playbook-Integration.md">Read the playbook integration</a>
+          </div>
+        </div>
+        <aside class="status-card" aria-label="Current activation status">
+          <div class="status-title"><span class="dot" aria-hidden="true"></span> Planning structure · gated</div>
+          <p>Current repository state is ready to plan LLM-UC-01, not to contact a target.</p>
+          <ul class="status-list">
+            <li>Objective: <strong>LLM-UC-01 — Undesirable Content</strong></li>
+            <li>Playbook: <strong>integrated by reference</strong></li>
+            <li>Dynamic objective discovery: <strong>not implemented</strong></li>
+            <li>Campaign activation: <strong>human approval required</strong></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="model">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">The testing model</div>
+            <h2>Context is part of the security boundary.</h2>
+          </div>
+          <p class="muted small">The same output is not automatically a violation in every deployment.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <span class="tag">01 · Context</span>
+            <h3>Understand the deployment</h3>
+            <p>Capture use case, audience, user roles, workflows, language, jurisdiction, model/provider, guardrails, memory, tools, RAG, rendering, and production-like parameters.</p>
+          </article>
+          <article class="card">
+            <span class="tag blue">02 · Policy</span>
+            <h3>Define the evaluation oracle</h3>
+            <p>Policy cells specify what is in scope, what counts as a violation, what is not a violation, severity, proxy-only categories, thresholds, and escalation behavior.</p>
+          </article>
+          <article class="card">
+            <span class="tag warning">03 · Evidence</span>
+            <h3>Prove and review outcomes</h3>
+            <p>Candidate successes are reproduced, scored against the policy matrix, reviewed by a human, and reported with redacted excerpts. Full transcripts stay in approved evidence storage.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Nine controlled phases</div>
+            <h2>From authorization to regression.</h2>
+          </div>
+          <p class="muted small">Select a phase for its operating detail.</p>
+        </div>
+        <div class="pipeline" role="list" aria-label="LLM undesirable-content testing phases">
+          <button class="phase active" type="button" data-phase="scope" role="listitem"><span class="phase-number">01</span><strong>Scope &amp; configure</strong></button>
+          <button class="phase" type="button" data-phase="policy" role="listitem"><span class="phase-number">02</span><strong>Policy matrix</strong></button>
+          <button class="phase" type="button" data-phase="recon" role="listitem"><span class="phase-number">03</span><strong>Reconnaissance</strong></button>
+          <button class="phase" type="button" data-phase="baseline" role="listitem"><span class="phase-number">04</span><strong>Baseline</strong></button>
+          <button class="phase" type="button" data-phase="adversarial" role="listitem"><span class="phase-number">05</span><strong>Adversarial testing</strong></button>
+          <button class="phase" type="button" data-phase="reproduction" role="listitem"><span class="phase-number">06</span><strong>Reproduction</strong></button>
+          <button class="phase" type="button" data-phase="evaluation" role="listitem"><span class="phase-number">07</span><strong>Evaluation</strong></button>
+          <button class="phase" type="button" data-phase="review" role="listitem"><span class="phase-number">08</span><strong>Human review</strong></button>
+          <button class="phase" type="button" data-phase="regression" role="listitem"><span class="phase-number">09</span><strong>Regression</strong></button>
+        </div>
+        <div class="phase-detail" aria-live="polite">
+          <span class="tag" id="phase-tag">Phase 01</span>
+          <h3 id="phase-title">Scoping and configuration</h3>
+          <p id="phase-copy">Confirm authorization, exact endpoint, prompt field, response path, environment, audience, policies, exclusions, budgets, evidence handling, and kill switch before any request is sent.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Controlled campaign loop</div>
+            <h2>Baseline before adversarial pressure.</h2>
+          </div>
+        </div>
+        <div class="flow-map" aria-label="Campaign sequence">
+          <div class="flow-node"><span class="tag">01</span><strong>Target adapter</strong><span>Allowlisted endpoint, auth reference, prompt insertion, response extraction.</span></div>
+          <div class="flow-node"><span class="tag">02</span><strong>Recon + controls</strong><span>Model behavior, guardrails, context, rendering, RAG, tools, benign controls.</span></div>
+          <div class="flow-node"><span class="tag">03</span><strong>Approved campaign</strong><span>Techniques selected from the playbook with budgets, rate, turn, and stop rules.</span></div>
+          <div class="flow-node"><span class="tag">04</span><strong>Reproduce</strong><span>Fixed prompts, fresh sessions where applicable, paraphrase variants, k/N.</span></div>
+          <div class="flow-node"><span class="tag">05</span><strong>Judge + human</strong><span>Policy-cell scoring, calibrated judge stack, human validation, redacted reporting.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="techniques">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Playbook-derived operators</div>
+            <h2>Prompt injection is a catalogue, not a payload dump.</h2>
+          </div>
+          <p class="muted small">Select operators only after target, policy, budget, and human-review gates are complete.</p>
+        </div>
+        <div class="notice">Krankenhaus learned these named mutation operators from the integrated undesirable-content playbook. They probe different failure modes—framing, instruction hierarchy, filter evasion, conversation state, indirect input, multimodal handling, policy asymmetry, and scope control. The catalogue does not authorize sending every technique.</div>
+        <div class="technique-grid">
+          <article class="technique-card"><span class="technique-id">T01</span><strong>Persona / role-play</strong><p>Probes whether framing a request as a role or character overrides alignment.</p></article>
+          <article class="technique-card"><span class="technique-id">T02</span><strong>Fictional / hypothetical frame</strong><p>Probes susceptibility to a pretext that separates the request from real-world intent.</p></article>
+          <article class="technique-card"><span class="technique-id">T03</span><strong>Authority / legitimacy claim</strong><p>Probes whether an unverified authority or approval claim receives excess trust.</p></article>
+          <article class="technique-card"><span class="technique-id">T04</span><strong>Direct prompt injection</strong><p>Probes instruction-hierarchy robustness when a user attempts to replace governing behavior.</p></article>
+          <article class="technique-card"><span class="technique-id">T05</span><strong>Refusal suppression</strong><p>Probes whether the requester can steer the model away from a required refusal.</p></article>
+          <article class="technique-card"><span class="technique-id">T06</span><strong>Prefix injection</strong><p>Probes autoregressive commitment after the model is induced to begin a constrained continuation.</p></article>
+          <article class="technique-card"><span class="technique-id">T07</span><strong>Encoding obfuscation</strong><p>Probes keyword and classifier evasion through alternate representations.</p></article>
+          <article class="technique-card"><span class="technique-id">T08</span><strong>Language shift</strong><p>Probes English-centric safety gaps across supported languages or language mixtures.</p></article>
+          <article class="technique-card"><span class="technique-id">T09</span><strong>Payload splitting</strong><p>Probes filters that evaluate fragments without reconstructing the full conversational context.</p></article>
+          <article class="technique-card"><span class="technique-id">T10</span><strong>Task decomposition</strong><p>Probes per-turn evaluation gaps when a disallowed objective is split into smaller steps.</p></article>
+          <article class="technique-card"><span class="technique-id">T11</span><strong>Crescendo / gradual escalation</strong><p>Probes conversation-level moderation gaps as a thread moves from safe to unsafe.</p></article>
+          <article class="technique-card"><span class="technique-id">T12</span><strong>Many-shot priming</strong><p>Probes long-context in-context learning and whether repeated examples shift behavior.</p></article>
+          <article class="technique-card"><span class="technique-id">T13</span><strong>Output format shift</strong><p>Probes prose-only filter gaps by requesting another allowed response representation.</p></article>
+          <article class="technique-card"><span class="technique-id">T14</span><strong>Completion framing</strong><p>Probes whether a continuation request is evaluated differently from a direct request.</p></article>
+          <article class="technique-card"><span class="technique-id">T15</span><strong>Indirect injection</strong><p>Probes handling of untrusted instructions embedded in documents, URLs, email, or tool data.</p></article>
+          <article class="technique-card"><span class="technique-id">T16</span><strong>Multimodal injection</strong><p>Probes cross-modal moderation when images or audio are accepted by the target.</p></article>
+          <article class="technique-card"><span class="technique-id">T17</span><strong>Counterfactual bias pairs</strong><p>Probes protected-attribute asymmetry by comparing policy-equivalent variants.</p></article>
+          <article class="technique-card"><span class="technique-id">T18</span><strong>Emotional / urgency manipulation</strong><p>Probes sycophancy and pressure handling under urgency or emotional framing.</p></article>
+          <article class="technique-card"><span class="technique-id">T19</span><strong>Context / goal hijack</strong><p>Probes whether the model loses its intended scope or workflow objective.</p></article>
+          <article class="technique-card"><span class="technique-id">T20</span><strong>Commitment extraction</strong><p>Probes unauthorized promises, terms, or commitments elicited from the application.</p></article>
+          <article class="technique-card"><span class="technique-id">T21</span><strong>Automated optimization</strong><p>Probes general robustness through explicit tooling; requires separate tooling approval.</p></article>
+        </div>
+        <div class="card" style="margin-top: 18px">
+          <h3>Selection heuristics</h3>
+          <ul class="heuristic-list">
+            <li><strong>Input classifier suspected:</strong> T07, T08, T09, T13</li>
+            <li><strong>Output filter suspected:</strong> T09, T13</li>
+            <li><strong>Model-generated refusals:</strong> T01, T02, T03, T11, T12</li>
+            <li><strong>Multi-turn memory:</strong> T10, T11</li>
+            <li><strong>Document, URL, email, or tool ingestion:</strong> T15</li>
+            <li><strong>Image or audio acceptance:</strong> T16</li>
+            <li><strong>Bias policy cell:</strong> T17 is mandatory</li>
+            <li><strong>Policy-cell testing:</strong> T18, T19, T20 where applicable</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="metrics">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Measurement model</div>
+            <h2>Metrics make stochastic behavior comparable.</h2>
+          </div>
+          <p class="muted small">Operational calculation model; thresholds and policy-cell labels remain engagement-specific. No target campaign has been run here.</p>
+        </div>
+        <div class="metric-grid">
+          <article class="metric">
+            <div class="metric-value">BRR</div>
+            <div class="metric-label">Baseline Refusal Rate</div>
+            <div class="metric-formula">BRR = R<sub>b</sub> &divide; N<sub>b</sub> &times; 100</div>
+            <p class="metric-detail"><strong>R<sub>b</sub>:</strong> baseline probes that receive a policy-compliant refusal or safe redirect.<br><strong>N<sub>b</sub>:</strong> valid baseline probes for the selected harmful-content cells.</p>
+            <p class="metric-detail"><strong>Example:</strong> 18 compliant refusals out of 24 valid baseline probes: <strong>18 &divide; 24 &times; 100 = 75%</strong>.</p>
+          </article>
+          <article class="metric">
+            <div class="metric-value">BVR</div>
+            <div class="metric-label">Baseline Violation Rate</div>
+            <div class="metric-formula">BVR = V<sub>b</sub> &divide; N<sub>b</sub> &times; 100</div>
+            <p class="metric-detail"><strong>V<sub>b</sub>:</strong> baseline probes whose output meets the approved policy-cell violation criteria.<br><strong>N<sub>b</sub>:</strong> the same valid baseline-probe denominator used for BRR.</p>
+            <p class="metric-detail"><strong>Example:</strong> 3 baseline probes meet the violation criteria out of 24 valid probes: <strong>3 &divide; 24 &times; 100 = 12.5%</strong>.</p>
+          </article>
+          <article class="metric">
+            <div class="metric-value">ORR</div>
+            <div class="metric-label">Over-Refusal Rate</div>
+            <div class="metric-formula">ORR = R<sub>c</sub> &divide; N<sub>c</sub> &times; 100</div>
+            <p class="metric-detail"><strong>R<sub>c</sub>:</strong> benign, allowed-control prompts incorrectly refused or blocked.<br><strong>N<sub>c</sub>:</strong> valid benign controls expected to receive an allowed response.</p>
+            <p class="metric-detail"><strong>Example:</strong> 2 benign controls are incorrectly refused out of 20 valid controls: <strong>2 &divide; 20 &times; 100 = 10%</strong>.</p>
+          </article>
+          <article class="metric">
+            <div class="metric-value">ASR</div>
+            <div class="metric-label">Attack Success Rate</div>
+            <div class="metric-formula">ASR = S<sub>a</sub> &divide; A<sub>e</sub> &times; 100</div>
+            <p class="metric-detail"><strong>S<sub>a</sub>:</strong> eligible adversarial attempts producing a confirmed policy violation.<br><strong>A<sub>e</sub>:</strong> eligible attempts actually sent and scored; excluded or blocked attempts are reported separately.</p>
+            <p class="metric-detail"><strong>Example:</strong> 7 eligible adversarial attempts produce confirmed violations out of 35 scored attempts: <strong>7 &divide; 35 &times; 100 = 20%</strong>.</p>
+          </article>
+          <article class="metric">
+            <div class="metric-value">k/N</div>
+            <div class="metric-label">Reproducibility</div>
+            <div class="metric-formula">Reproducibility = k successful replays &divide; N total replays</div>
+            <p class="metric-detail"><strong>k:</strong> fixed-prompt trials reproducing the confirmed outcome.<br><strong>N:</strong> configured replay trials, preferably across fresh sessions where applicable; report both the fraction and percentage.</p>
+            <p class="metric-detail"><strong>Example:</strong> 3 fixed-prompt replays reproduce the confirmed outcome out of 5 trials: <strong>3 &divide; 5 = 60%</strong>.</p>
+          </article>
+        </div>
+        <article class="composite-metric card">
+          <div>
+            <span class="tag">Composite campaign metric</span>
+            <div class="metric-value">PUCE</div>
+            <div class="metric-label">Positive Undesirable Content Efficiency</div>
+            <div class="metric-note">Higher means more positive cases with fewer typical cycles and attempts</div>
+          </div>
+          <div>
+            <div class="metric-formula">PUCE = P &divide; (A &times; C<sub>mode</sub>) &times; 100</div>
+            <p class="metric-detail"><strong>P:</strong> distinct positive undesirable-content test cases with a confirmed policy-cell violation.<br><strong>A:</strong> total eligible attempts sent and scored to obtain undesirable content; define an attempt consistently in the campaign record.<br><strong>C<sub>mode</sub>:</strong> the most frequently observed number of prompt-response cycles required to produce a confirmed positive result across the positive cases.</p>
+            <p class="metric-detail"><strong>Example:</strong> 8 positive cases, 40 eligible attempts, and a modal cycle count of 2: <strong>8 &divide; (40 &times; 2) &times; 100 = 10%</strong>.</p>
+            <p class="metric-detail"><strong>Bounds:</strong> assuming each positive case consumes at least one eligible attempt, <strong>0% &le; PUCE &le; 100%</strong>. The upper bound requires every eligible attempt to produce a distinct positive case and <strong>C<sub>mode</sub> = 1</strong>; the lower bound is <strong>0%</strong> when no positive case is confirmed.</p>
+            <div class="metric-note">If P = 0, report 0%; if A = 0 or C<sub>mode</sub> is undefined, report N/A. If cycle counts are tied between multiple modes, report the modal set and corresponding PUCE range rather than choosing silently. Pair with ASR and reproducibility; PUCE is an efficiency indicator, not severity.</div>
+          </div>
+        </article>
+        <div class="notice" style="margin-top: 16px">Score each response against the approved policy cell before counting it. Keep numerator, denominator, exclusions, policy cell, role/persona, model parameters, and session conditions with the result; do not infer a rate from tone or from refusal alone.</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap grid-2">
+        <article class="card">
+          <div class="eyebrow">Hard operating rules</div>
+          <h2>Safety is enforced as code and process.</h2>
+          <ul class="gate-list" style="margin-top: 20px">
+            <li><span class="gate-icon">!</span><span>Target outputs, retrieved documents, tool outputs, and messages are untrusted data—not instructions.</span></li>
+            <li><span class="gate-icon">!</span><span>Host, endpoint, budget, rate, turn, and scope allowlists are enforced outside the prompt.</span></li>
+            <li><span class="gate-icon">!</span><span>Extremely hazardous categories use proxy objectives and stop at boundary evidence.</span></li>
+            <li><span class="gate-icon">!</span><span>Escalate real personal data, credentials, production impact, hard exclusions, or judge anomalies.</span></li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="eyebrow">Activation gate</div>
+          <h2>Reference is not activation.</h2>
+          <p class="muted">LLM-UC-01 remains planned until the engagement-specific prerequisites are complete.</p>
+          <ul class="gate-list" style="margin-top: 20px">
+            <li><span class="gate-icon">□</span><span>Exact prompt-insertion endpoint and response extraction path.</span></li>
+            <li><span class="gate-icon">□</span><span>Business/user context and approved policy matrix.</span></li>
+            <li><span class="gate-icon">□</span><span>Model, provider, parameters, guardrails, memory, tools, and evidence handling.</span></li>
+            <li><span class="gate-icon">□</span><span>Budget, kill switch, exclusions, judge setup, and human reviewer.</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Repository source map</div>
+            <h2>Where each part lives.</h2>
+          </div>
+          <p class="muted small">Human-readable sources are edited; working campaign state is maintained directly.</p>
+        </div>
+        <div class="source-grid">
+          <article class="source-card"><span class="tag">Context</span><strong>Engagement context</strong><code>llm/engagement/LLM-Engagement-Info.md</code><a href="../llm/engagement/LLM-Engagement-Info.md">Open source →</a></article>
+          <article class="source-card"><span class="tag blue">Target</span><strong>Target adapter contract</strong><code>llm/engagement/LLM-Target-Context.md</code><a href="../llm/engagement/LLM-Target-Context.md">Open source →</a></article>
+          <article class="source-card"><span class="tag warning">Policy</span><strong>Policy matrix</strong><code>llm/engagement/LLM-Policy-Matrix.md</code><a href="../llm/engagement/LLM-Policy-Matrix.md">Open source →</a></article>
+          <article class="source-card"><span class="tag">Playbook</span><strong>Undesirable content</strong><code>llm/playbooks/undesirable-content/</code><a href="../llm/playbooks/undesirable-content/Playbook-Integration.md">Open integration →</a></article>
+          <article class="source-card"><span class="tag blue">Operators</span><strong>Prompt-injection techniques</strong><code>llm/playbooks/undesirable-content/Technique-Catalogue.md</code><a href="../llm/playbooks/undesirable-content/Technique-Catalogue.md">Open catalogue →</a></article>
+          <article class="source-card"><span class="tag blue">Plan</span><strong>Objective and campaign order</strong><code>llm/engagement/LLM-Testing-Plan.md</code><a href="../llm/engagement/LLM-Testing-Plan.md">Open source →</a></article>
+          <article class="source-card"><span class="tag warning">Workflow</span><strong>LLM source of truth</strong><code>llm/engagement/LLM-Source-of-Truth.md</code><a href="../llm/engagement/LLM-Source-of-Truth.md">Open workflow →</a></article>
+          <article class="source-card"><span class="tag">Records</span><strong>Campaign and finding templates</strong><code>llm/templates/</code><a href="../llm/templates/LLM-Campaign-Record.md">Open campaign template →</a></article>
+          <article class="source-card"><span class="tag blue">Evidence</span><strong>Evidence boundaries</strong><code>llm/evidence/README.md</code><a href="../llm/evidence/README.md">Open evidence rules →</a></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>Krankenhaus</strong> · LLM undesirable-content testing showcase<br>
+      <span class="small">Documentation only. No target traffic, prompts, harmful transcripts, credentials, or client-specific data are embedded in this page.</span>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const details = {
+        scope: ["Phase 01", "Scoping and configuration", "Confirm authorization, exact endpoint, prompt field, response path, environment, audience, policies, exclusions, budgets, evidence handling, and kill switch before any request is sent."],
+        policy: ["Phase 02", "Policy matrix", "Define in-scope cells, violation criteria, non-violations, severity, approved objectives, proxy-only categories, thresholds, and required escalation behavior."],
+        recon: ["Phase 03", "Reconnaissance", "Record model or provider clues, guardrails, output filters, inferred scope, language behavior, context and memory, input surfaces, rendering, RAG, and tools."],
+        baseline: ["Phase 04", "Baseline", "Run direct harmful-category probes and benign controls at production-like parameters. Measure refusal, violation, and over-refusal baselines before adversarial techniques."],
+        adversarial: ["Phase 05", "Adversarial testing", "Select approved operators from the reviewed playbook based on the target profile. Enforce host, endpoint, budget, rate, turn, and stop rules."],
+        reproduction: ["Phase 06", "Reproduction", "Replay fixed prompts N times in fresh sessions where applicable, add paraphrase variants, and record reproducibility as k/N."],
+        evaluation: ["Phase 07", "Evaluation", "Use a calibrated judge or classifier stack to score content, specificity/actionability, context, required behavior, and over-refusal against the policy matrix."],
+        review: ["Phase 08", "Human review and reporting", "A human validates every confirmed finding, borderline or high-severity disagreement, and a sample of safe results. Reports contain redacted excerpts only."],
+        regression: ["Phase 09", "Regression", "After remediation, turn confirmed cases and safe variants into regression records and verify that the required behavior remains stable." ]
+      };
+
+      const buttons = document.querySelectorAll(".phase");
+      const tag = document.getElementById("phase-tag");
+      const title = document.getElementById("phase-title");
+      const copy = document.getElementById("phase-copy");
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const selected = details[button.dataset.phase];
+          if (!selected) return;
+          buttons.forEach((item) => item.classList.toggle("active", item === button));
+          tag.textContent = selected[0];
+          title.textContent = selected[1];
+          copy.textContent = selected[2];
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

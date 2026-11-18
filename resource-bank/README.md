@@ -36,6 +36,8 @@ resource-bank/<family>/
 └── notes/                    # human-readable technique notes
 ```
 
-Use `Resource-Locator.md` and `templates/Resource-Entry.md` for a consistent record. Do not place secrets, target credentials, raw customer data, or uncontrolled harmful payloads in the repository.
+Use `Resource-Locator.md` and `templates/Resource-Entry.md` for a consistent record. Before testing, the LLM must retrieve and read each applicable enabled online source, record the title, version/date, relevant sections, techniques, applicability, limitations, and licensing, and write that review to `plans/Resource-Review.md`. Do not place secrets, target credentials, raw customer data, or uncontrolled harmful payloads in the repository.
+
+The LLM must cross-check resource details against the current target technology, parser, browser, framework, protocol, input context, and finding boundary. Resource names and remembered payloads are not substitutes for reading the current source.
 
 The LLM mode has its own playbook integration under `llm/playbooks/`, while generic LLM safety/red-team references may be indexed here later.

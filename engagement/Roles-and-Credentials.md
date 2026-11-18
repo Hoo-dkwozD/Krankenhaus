@@ -1,25 +1,13 @@
 # Roles and Credential References
 
-> Human-readable source. Edit this file; do not edit `config/roles.csv` directly. Store passwords and tokens only in ignored `private/` storage or a password manager.
+> Human-readable source. List the roles supplied for this engagement and the credential reference for each. Store passwords, tokens, and API keys only in ignored `private/` storage or a password manager.
 
-The required testing order is highest privilege to lowest privilege:
+Testing follows the order in the table. Put the highest supplied privilege first when privilege is known; otherwise use the order supplied by the engagement. Do not assume generic role names or a fixed role model. Test every enabled role.
 
-1. Super Admin
-2. Admin
-3. Supervisor
-4. Agent
+| Test order | Role label | Username or account reference | Credential reference | Enabled | Role, tenant, fixture, or workflow notes |
+|---:|---|---|---|---|---|
+| 1 | `EDIT_ME` | `EDIT_ME` | `private/credentials.env` or password manager | true | Highest supplied privilege, if known |
 
-| Order | Role | Username | Credential reference | Tenant | Enabled | Notes |
-|---:|---|---|---|---|---|---|
-| 1 | Super Admin | `EDIT_ME` | `private/credentials.env` or password manager | `EDIT_ME` | true | Highest privilege; test first |
-| 2 | Admin | `EDIT_ME` | `private/credentials.env` or password manager | `EDIT_ME` | true | Test after Super Admin |
-| 3 | Supervisor | `EDIT_ME` | `private/credentials.env` or password manager | `EDIT_ME` | true | Test after Admin |
-| 4 | Agent | `EDIT_ME` | `private/credentials.env` or password manager | `EDIT_ME` | true | Lowest supplied privilege |
+## Additional role notes
 
-## Role-specific notes
-
-- Super Admin tenant access: `EDIT_ME`
-- Admin tenant access: `EDIT_ME`
-- Supervisor tenant access: `EDIT_ME`
-- Agent tenant access: `EDIT_ME`
-- Account provisioning or MFA notes: `EDIT_ME`
+Use this open-ended section for role inheritance, tenant context, account setup, MFA behavior, shared accounts, or any other detail that affects testing. Leave it brief when no extra detail is needed.

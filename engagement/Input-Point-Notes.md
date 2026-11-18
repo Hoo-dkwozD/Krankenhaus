@@ -1,9 +1,13 @@
 # Input-Point Notes
 
-> Human-readable source. Edit this file during input mapping; `plans/Input-Point-Inventory.csv` is generated from the table below.
+> Optional starting notes. During reconnaissance, the LLM maintains the complete input inventory in `plans/Input-Point-Inventory.md`.
 
-For each injection or input-validation family, map every source and sink before testing. Record each role separately where reachability or authorization differs. Assign batches of no more than 20 inputs.
+Map every source and sink before testing each applicable finding family. Include query, path, header, cookie, body, JSON, multipart, file, URL, stored value, import, export, WebSocket, client-side, and third-party inputs. Record role-specific reachability and the relevant resource or technique reference.
 
-| Input ID | Finding family | Role | Method | Path | Location or field | Source type | Sink or behavior | Content type | Tenant scope | Fixture required | Batch | Status | Evidence reference | Notes |
+| Input ID | Finding family | Role | Method/protocol | Path/operation | Location or field | Source type | Sink or behavior | Content type/context | UI workflow | API/WebSocket equivalent | Batch | Status | Evidence | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| IN-0001 | APP-INJ-01 | Super Admin | GET | `/EDIT_ME` | `EDIT_ME` | query | `EDIT_ME` | application/json | `EDIT_ME` | no | 1 | Planned |  | Replace this row with the first mapped input |
+| IN-0001 | APP-INJ-01 | `EDIT_ME` | GET | `/EDIT_ME` | `EDIT_ME` | query | `EDIT_ME` | `EDIT_ME` | `EDIT_ME` | `EDIT_ME` | 1 | Planned |  | Replace or extend this example |
+
+## Open-ended notes
+
+Add parser, encoding, framework, storage, fixture, role, cleanup, or resource-reference detail as needed.

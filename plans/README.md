@@ -1,9 +1,12 @@
-# Plans
+# Working Plans
 
-- `Finding-Plan.md` is generated from `catalogue/Finding-Catalogue.md` and engagement metadata.
-- `Endpoint-Inventory.csv` is generated from `engagement/Endpoint-Notes.md`.
-- `Input-Point-Inventory.csv` is generated from `engagement/Input-Point-Notes.md`.
-- `config/engagement.yaml` and `config/roles.csv` are generated from `engagement/Engagement-Info.md` and `engagement/Roles-and-Credentials.md`.
-- Run `scripts/build-machine-state.py` after editing any human-readable source. Do not edit generated files directly.
+The LLM maintains these working documents directly from the human-readable engagement inputs, the current target surface, Burp MCP sitemap/history, browser/UI behavior, the finding catalogue, and the reviewed resource bank.
 
-Use `Planned`, `In progress`, `Observed — needs confirmation`, `Confirmed finding`, `Negative for tested boundary`, `Blocked`, or `Not applicable`. Never convert an untested boundary to negative.
+- `Operational-State.md` — current target, roles, sitemap, technologies, workflows, and UI/API comparisons.
+- `Finding-Plan.md` — complete surface-driven objectives and coverage status.
+- `Endpoint-Inventory.md` — every endpoint, method, protocol, and UI/API variant.
+- `Input-Point-Inventory.md` — every input, source, sink, context, role, variant, and batch.
+- `Protected-Operations.md` — expected versus observed access for every supplied role.
+- `Resource-Review.md` — online/local references read and relevant details extracted.
+
+These are not generated files. Update them as understanding changes. Do not mark an objective or boundary negative until the mapped coverage is complete.

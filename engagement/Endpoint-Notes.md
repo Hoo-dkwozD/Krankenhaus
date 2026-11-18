@@ -1,9 +1,13 @@
 # Endpoint Notes
 
-> Human-readable source. Edit this file during reconnaissance; `plans/Endpoint-Inventory.csv` is generated from the table below.
+> Optional starting notes. During reconnaissance, the LLM maintains the complete endpoint inventory in `plans/Endpoint-Inventory.md`.
 
-Record every endpoint discovered from the UI, Burp sitemap, JavaScript, route data, WebSocket history, manifests, or approved external integration references. Use one row per method/path variant that needs separate authorization or input coverage.
+Record every discovered route, method, host, API operation, WebSocket message family, upload/import/export, scheduled job, and third-party boundary. Keep UI-backed and programmatic variants connected so their behavior can be compared.
 
-| Endpoint ID | Method | Host | Path | Discovery source | UI route/workflow | Auth required | Role reachability | Tenant scope | Object scope | State change | Fixture required | Status | Evidence reference | Notes |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| EP-0001 | GET | `EDIT_ME` | `/` | UI/Burp | Login or shell | unknown | all roles | `EDIT_ME` | none | no | no | Discovered |  | Replace this row with the first observed endpoint |
+| Endpoint ID | Method/protocol | Host/path or operation | Discovery source | UI workflow | API/WebSocket operation | Auth/role reachability | Object/tenant context | State change | Inputs/sinks | Status | Evidence | Notes |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| EP-0001 | GET | `EDIT_ME` | `EDIT_ME` | `EDIT_ME` | `EDIT_ME` | `EDIT_ME` | `EDIT_ME` | `EDIT_ME` | `EDIT_ME` | Discovered |  | Replace or extend this example |
+
+## Open-ended notes
+
+Add framework, route, protocol, integration, cleanup, or UI/API comparison detail as needed.

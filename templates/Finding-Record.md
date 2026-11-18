@@ -1,28 +1,26 @@
 # [ID] — [Title]
 
-## Status
+Use this record for a candidate or confirmed finding. Keep it concise when the issue is simple and expand the free-form sections when the application or impact requires more detail.
+
+## Status and evidence
 
 - Status: `Observed — needs confirmation`
-- Date/time (UTC):
-- Tester:
-- Evidence files:
+- Date/time or run reference:
+- Evidence files/Burp references:
+- Finding or batch references:
 
-## Scope
+## Boundary
 
 - Target URL/host:
-- Role:
-- Tenant:
-- Endpoint and method:
-- UI route/workflow:
-- Object/record namespace:
+- Role or account context:
+- Tenant/organization/object context, if applicable:
+- Endpoint, method, protocol, and UI/API workflow:
+- Input, field, message, sink, or state transition:
+- Resource/technique reference:
 
-## Preconditions
+## Preconditions and expected control
 
-1.
-
-## Expected control
-
--
+Describe the precondition, the expected authorization/validation/safety behavior, and any relevant control role, object, tenant, input, or UI path.
 
 ## Reproduction
 
@@ -32,36 +30,18 @@
 
 Use sanitized requests and responses. Never include passwords, tokens, API keys, or unnecessary PII.
 
-## Observed result
+## Observed result and coverage
 
--
+Describe the observed behavior, affected roles/objects/instances, UI/API difference if relevant, and all tested variants. Record remaining untested boundaries instead of implying complete coverage.
 
-## Postcondition and replay
+## Postcondition, replay, and cleanup
 
-- Affected object/session:
-- Original request replay result:
-- Control role/object/tenant result:
-- Cleanup result:
+Describe any affected state, original request replay, control comparison, cleanup action, cleanup verification, or `Not applicable`.
 
-## Impact
+## Impact and remediation
 
-- CIA: Confidentiality / Integrity / Availability
-- Impact:
-- Likelihood:
-- Affected roles/tenants/objects:
-
-## Remediation
-
--
-
-## Retest criteria
-
--
+Describe confidentiality, integrity, availability, business impact, likelihood, affected scope, remediation, and retest criteria. Add any context-specific detail needed by the engagement.
 
 ## Residual boundaries
 
-- Browser:
-- WebSocket:
-- Mutation:
-- Cross-tenant:
-- External side effect:
+Record browser, API, WebSocket, mutation, cross-tenant, file, external-side-effect, parser, role, or other boundaries that were not tested or could not be reproduced.

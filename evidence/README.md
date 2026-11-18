@@ -2,20 +2,16 @@
 
 Store sanitized, reproducible evidence here. Keep raw Burp projects, raw HTTP archives, full responses, tokens, credentials, and unnecessary PII under ignored `private/` storage.
 
-Recommended names:
+Use filenames that identify the finding or phase, role/context, batch, endpoint, and date when those details are useful. The naming format is a guide, not a required schema.
 
-```text
-YYYY-MM-DD_<finding-or-phase>_<role>_<batch>_<short-description>.md
-```
+Each evidence record should include whatever is needed to reproduce the result, such as:
 
-Each record should state:
+- Timestamp or run reference.
+- Role, account, tenant, object, or workflow context when applicable.
+- Method, host, path, protocol, and relevant query/body fields.
+- Sanitized headers, status, response schema, and meaningful state changes.
+- Preconditions, expected behavior, observed behavior, control comparisons, and cleanup.
+- UI/API or WebSocket comparison details where relevant.
+- Burp MCP or other evidence reference.
 
-- UTC timestamp
-- Role and tenant
-- Method, host, path, and relevant query/body fields
-- Sanitized headers and response status/schema
-- Preconditions, expected behavior, observed behavior
-- Control result and cleanup result
-- Burp MCP evidence reference
-
-Do not call an endpoint `negative` unless the exact role, variant, object, tenant, and protocol boundary was tested.
+Do not call a boundary negative unless the exact tested role/context, variant, object, input, and protocol boundary are recorded.
